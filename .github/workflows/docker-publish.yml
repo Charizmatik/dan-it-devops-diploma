@@ -54,7 +54,7 @@ jobs:
         run: |
           set -euo pipefail
           docker run --detach --rm --name backend-smoke -p 127.0.0.1:8000:8000 backend:test
-          trap 'docker logs backend-smoke; docker stop --time 2 backend-smoke' EXIT
+          trap 'docker logs backend-smoke; docker stop --timeout 2 backend-smoke' EXIT
           test "$(docker exec backend-smoke id -u)" = "10001"
           python3 - <<'PY'
           import json
@@ -70,7 +70,7 @@ jobs:
                       assert response.headers.get_content_type() == "application/json"
                       payload = json.load(response)
                   break
-              except URLError:
+              except (URLError, ConnectionError, TimeoutError):
                   time.sleep(0.5)
           else:
               raise RuntimeError("Backend did not become ready")
