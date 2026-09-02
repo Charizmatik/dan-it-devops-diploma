@@ -1,0 +1,75 @@
+# Local collaboration instructions and working notes
+/AGENTS.md
+/.agents/
+/.codex/
+/docs/
+
+# IDE and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# Python environments and generated files
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+
+# Local environment values; keep safe examples versioned
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# Credentials and private keys
+.aws/
+.kube/
+.docker/
+.ssh/
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+kubeconfig
+kubeconfig.*
+!kubeconfig.example
+
+# Terraform downloaded providers, state, plans and local values
+# Keep .terraform.lock.hcl in Git for reproducible provider versions.
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Temporary files; evidence and screenshots remain versioned
+*.tmp
+*.temp

@@ -1,0 +1,125 @@
+name: Build and publish backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'final-submission/backend/**'
+      - 'final-submission/Dockerfile'
+      - 'final-submission/.dockerignore'
+      - '.github/workflows/docker-publish.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'final-submission/backend/**'
+      - 'final-submission/Dockerfile'
+      - 'final-submission/.dockerignore'
+      - '.github/workflows/docker-publish.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  IMAGE_NAME: mikoladolia/dan-it-backend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+
+      - name: Build image for testing
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: ./final-submission
+          file: ./final-submission/Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Verify HTTP response and container user
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --detach --rm --name backend-smoke -p 127.0.0.1:8000:8000 backend:test
+          trap 'docker logs backend-smoke; docker stop --time 2 backend-smoke' EXIT
+          test "$(docker exec backend-smoke id -u)" = "10001"
+          python3 - <<'PY'
+          import json
+          import subprocess
+          import time
+          from urllib.error import HTTPError, URLError
+          from urllib.request import urlopen
+
+          for attempt in range(30):
+              try:
+                  with urlopen("http://127.0.0.1:8000/", timeout=2) as response:
+                      assert response.status == 200
+                      assert response.headers.get_content_type() == "application/json"
+                      payload = json.load(response)
+                  break
+              except URLError:
+                  time.sleep(0.5)
+          else:
+              raise RuntimeError("Backend did not become ready")
+
+          info = json.loads(subprocess.check_output(["docker", "inspect", "backend-smoke"]))[0]
+          container_ip = next(iter(info["NetworkSettings"]["Networks"].values()))["IPAddress"]
+          assert payload == {"status": "ok", "ip": container_ip}, payload
+          print("GET / -> HTTP 200:", payload)
+          try:
+              urlopen("http://127.0.0.1:8000/missing", timeout=2)
+              raise AssertionError("Expected HTTP 404")
+          except HTTPError as error:
+              assert error.code == 404
+              print("GET /missing -> HTTP 404")
+          PY
+
+      - name: Log in to Docker Hub
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Publish image
+        id: publish
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: ./final-submission
+          file: ./final-submission/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha
+
+      - name: Write publication summary
+        if: steps.publish.outcome == 'success'
+        env:
+          IMAGE_DIGEST: ${{ steps.publish.outputs.digest }}
+        run: |
+          {
+            echo '## Published Docker image'
+            echo "- Image: ${IMAGE_NAME}"
+            echo "- Tags: latest, sha-${GITHUB_SHA}"
+            echo "- Digest: ${IMAGE_DIGEST}"
+            echo '- Checks passed: HTTP 200, container IP, HTTP 404, UID 10001.'
+          } >> "$GITHUB_STEP_SUMMARY"

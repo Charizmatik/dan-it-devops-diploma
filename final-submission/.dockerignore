@@ -1,0 +1,6 @@
+# Only the server source is needed in the build context.
+**
+!Dockerfile
+!.dockerignore
+!backend/
+!backend/app.py
