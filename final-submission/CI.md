@@ -3,6 +3,12 @@
 Робочий репозиторій: [Charizmatik/dan-it-devops-diploma](https://github.com/Charizmatik/dan-it-devops-diploma).
 Образ: [mikoladolia/dan-it-backend](https://hub.docker.com/r/mikoladolia/dan-it-backend).
 
+## Підтверджений результат
+
+[Запуск №2](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33680105744) від 02.09.2026 завершився успішно за 47 секунд.
+Опубліковано `latest` і `sha-a3d755c05d915d6a3b24948512b28a3a6db47a80`.
+Образ завантажено з Docker Hub і перевірено локально. [Скріни та протоколи](evidence/03-ci-publication.md).
+
 ## Як працює workflow
 
 1. Після push у `main`, що змінює backend, Dockerfile, `.dockerignore` чи активний workflow, GitHub запускає збірку.

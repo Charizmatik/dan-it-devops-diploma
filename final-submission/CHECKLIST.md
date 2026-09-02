@@ -7,13 +7,15 @@
 - [x] Підготовлено Python backend: `GET /` повертає HTTP 200 та IP адресу.
 - [x] Локально перевірено HTTP 200 для `/` і HTTP 404 для невідомого шляху на Python 3.12.13. [Протокол](evidence/01-backend-local.md).
 - [x] Підготовлено й перевірено Dockerfile: образ зібрано, контейнер повертає HTTP 200 та власну IP адресу, процес працює з UID 10001. [Протокол](evidence/02-docker-local.md).
-- [ ] Підготовлено й перевірено GitHub Actions та публікацію образу в Docker Hub.
+- [x] Підготовлено й перевірено GitHub Actions та публікацію образу в Docker Hub. [Успішний запуск](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33680105744).
+- [x] Образ із Docker Hub завантажено та запущено локально; підтверджено HTTP 200, IP контейнера та UID 10001.
+- [x] Збережено скріни GitHub Actions і тегів Docker Hub та протоколи перевірок. [Матеріали етапу 1](evidence/03-ci-publication.md).
 
 ## Етапи завдання
 
 | Етап | Код підготовлено | Перевірено в цільовому середовищі | Докази збережено |
 | --- | --- | --- | --- |
-| 1. Python backend, Docker, GitHub Actions, Docker Hub | [ ] | [ ] | [ ] |
+| 1. Python backend, Docker, GitHub Actions, Docker Hub | [x] | [x] | [x] |
 | 2. EKS, одна node group з одним node, nginx ingress | [ ] | [ ] | [ ] |
 | 3. ArgoCD через Terraform і DNS | [ ] | [ ] | [ ] |
 | 4. Deployment, Service, Ingress і DNS застосунку | [ ] | [ ] | [ ] |

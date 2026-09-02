@@ -1,0 +1,17 @@
+{
+  "verified_at_utc": "2026-09-02T20:35:55.202431+00:00",
+  "image": "mikoladolia/dan-it-backend:sha-a3d755c05d915d6a3b24948512b28a3a6db47a80",
+  "digests": [
+    "mikoladolia/dan-it-backend@sha256:d6179b396e5dc5849527fb556606f53651e31222a50d541862141baeda32aa2f"
+  ],
+  "commit": "a3d755c05d915d6a3b24948512b28a3a6db47a80",
+  "platform": "linux/amd64",
+  "url": "http://127.0.0.1:53492/",
+  "http_status": 200,
+  "body": {
+    "status": "ok",
+    "ip": "172.17.0.2"
+  },
+  "runtime_uid": 10001,
+  "container_name": "dan-it-published-check-a3d755c0"
+}

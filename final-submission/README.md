@@ -9,7 +9,8 @@
 Локальну перевірку пройдено на Python 3.12.13: [протокол](evidence/01-backend-local.md).
 Підготовлено [Dockerfile та інструкцію Docker](DOCKER.md).
 Образ `dan-it-backend:local` зібрано та перевірено локально: HTTP 200, IP контейнера й запуск без root. [Протокол](evidence/02-docker-local.md).
-Підготовлено [GitHub Actions workflow та інструкцію CI](CI.md); перевірка публікації триває.
+Перший розділ виконано: [GitHub Actions](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33680105744) успішно збирає, перевіряє та публікує образ у [Docker Hub](https://hub.docker.com/r/mikoladolia/dan-it-backend/tags).
+[Інструкція CI](CI.md) · [Підсумок перевірки та скріни](evidence/03-ci-publication.md).
 Хмарне розгортання ще не виконане.
 Стан робіт і доказів: [CHECKLIST.md](CHECKLIST.md).
 
