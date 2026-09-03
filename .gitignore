@@ -55,6 +55,7 @@ kubeconfig.*
 
 # Terraform downloaded providers, state, plans and local values
 # Keep .terraform.lock.hcl in Git for reproducible provider versions.
+.tools/
 .terraform/
 *.tfstate
 *.tfstate.*

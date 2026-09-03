@@ -11,7 +11,11 @@
 Образ `dan-it-backend:local` зібрано та перевірено локально: HTTP 200, IP контейнера й запуск без root. [Протокол](evidence/02-docker-local.md).
 Перший розділ виконано: [GitHub Actions](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33680105744) успішно збирає, перевіряє та публікує образ у [Docker Hub](https://hub.docker.com/r/mikoladolia/dan-it-backend/tags).
 [Інструкція CI](CI.md) · [Підсумок перевірки та скріни](evidence/03-ci-publication.md).
-Хмарне розгортання ще не виконане.
+Другий етап розгорнуто в тестовому AWS-акаунті: [Terraform-код EKS](EKS.md)
+створив кластер `trezor`, одну managed node group `trezor-workers` з одним
+`t3.small` node та ingress-nginx через Helm. Підтверджено `Ready` node,
+controller `1/1 Running`, активний Network Load Balancer і нульовий Terraform
+drift. [Фактичний протокол](evidence/06-eks-and-ingress-live.md).
 Стан робіт і доказів: [CHECKLIST.md](CHECKLIST.md).
 
 ## Запланований склад
@@ -31,6 +35,8 @@
 - Основна гілка: `main`.
 - Docker Hub namespace: `mikoladolia`.
 - Образ Docker Hub: `mikoladolia/dan-it-backend`.
+- EKS Kubernetes version: `1.35`.
+- ingress-nginx Helm chart: `4.15.1`.
 
 ## Параметри, які потрібно визначити
 

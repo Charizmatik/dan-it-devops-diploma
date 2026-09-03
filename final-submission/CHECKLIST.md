@@ -16,7 +16,7 @@
 | Етап | Код підготовлено | Перевірено в цільовому середовищі | Докази збережено |
 | --- | --- | --- | --- |
 | 1. Python backend, Docker, GitHub Actions, Docker Hub | [x] | [x] | [x] |
-| 2. EKS, одна node group з одним node, nginx ingress | [ ] | [ ] | [ ] |
+| 2. EKS, одна node group з одним node, nginx ingress | [x] | [x] | [x] |
 | 3. ArgoCD через Terraform і DNS | [ ] | [ ] | [ ] |
 | 4. Deployment, Service, Ingress і DNS застосунку | [ ] | [ ] | [ ] |
 | 5. ArgoCD Application та автоматичне оновлення | [ ] | [ ] | [ ] |
@@ -26,3 +26,18 @@
 - [ ] Зібрано скріни за пунктами завдання для захисту.
 - [ ] Підготовлено інструкції видалення створених хмарних ресурсів.
 - [ ] Перевірено склад теки для перенесення й відсутність секретів.
+
+## Підпункти етапу 2
+
+- [x] Підготовлено Terraform для EKS у наявній VPC.
+- [x] Одна managed node group має `min_size = desired_size = max_size = 1`.
+- [x] Node group використовує EKS-оптимізований Amazon Linux 2023 AMI.
+- [x] ingress-nginx описано як Helm release з одним controller replica та AWS NLB.
+- [x] Чужі VPC/subnet IDs, домен, backend state та інші значення шаблону вилучено.
+- [x] Додано безпечний приклад параметрів та інструкції створення, перевірки й видалення.
+- [x] Локально виконано `terraform init`, `terraform fmt -check` і `terraform validate`.
+- [x] Перевірено `terraform plan` з фактичними AWS-параметрами: 9 add, 0 change, 0 destroy.
+- [x] Ресурси реально створено в AWS.
+- [x] Підтверджено один `Ready` node та працездатний ingress-nginx.
+- [x] Збережено фактичні скріни AWS і kubectl для захисту.
+- [x] Збережено окремий скрін активних namespace, включно з `ingress-nginx`.
