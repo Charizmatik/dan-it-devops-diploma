@@ -9,8 +9,9 @@ Terraform-код розташовано в [`terraform/eks/`](terraform/eks/). �
 
 Код адаптовано з наданого навчального прикладу. Чужі VPC/subnet IDs, домен
 `devops8.test-danit.com`, спільний S3 backend, ACM, ExternalDNS та EBS CSI не
-перенесено. ACM, DNS та ArgoCD належать наступним етапам. Terraform state,
-кеш провайдерів та локальний `terraform.tfvars` не можна додавати до Git.
+перенесено. ArgoCD і опційний Route53 CNAME додано на етапі 3; TLS/ACM не
+входять до мінімальної HTTP-конфігурації. Terraform state, кеш провайдерів та
+локальний `terraform.tfvars` не можна додавати до Git.
 
 Навчальне завдання прямо вимагає nginx ingress controller, тому використано
 [ingress-nginx](https://github.com/kubernetes/ingress-nginx). Проєкт

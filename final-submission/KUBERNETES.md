@@ -3,6 +3,8 @@
 > Фактичний стан: ресурси застосовано до EKS-кластера `trezor` 5 вересня 2026
 > року. Rollout завершився успішно, DNS створено, публічний HTTP-запит повернув
 > `200 OK`. [Протокол перевірки](evidence/12-kubernetes-app-live.md).
+> З 5 вересня 2026 року ці ресурси керуються ArgoCD з автоматичною
+> синхронізацією. [Протокол GitOps](evidence/15-argocd-gitops-live.md).
 
 Маніфести в теці `k8s/` реалізують четвертий етап завдання:
 
@@ -28,6 +30,16 @@ filesystem.
   Balancer сервісу ingress-nginx.
 
 ## Застосування
+
+Рекомендований спосіб після встановлення ArgoCD:
+
+```powershell
+kubectl apply -f argocd/application.yaml
+```
+
+Після bootstrap зміни в `k8s/` доставляються з гілки `main` автоматично.
+Команда нижче залишається для первинної ручної перевірки до створення
+Application або для аварійної діагностики:
 
 З кореня `final-submission/`:
 
@@ -96,8 +108,10 @@ kubectl get pods -n dan-it-backend -o wide
 ## Видалення ресурсів застосунку
 
 ```powershell
-kubectl delete -k k8s
+kubectl delete -f argocd/application.yaml
 ```
 
-DNS-запис `app` видаляється окремо в NIC.UA. Ця команда не видаляє EKS,
-ingress-nginx, ArgoCD або спільний Network Load Balancer.
+Через finalizer ArgoCD каскадно видалить керовані ресурси. Якщо Application
+вже не існує, резервна команда — `kubectl delete -k k8s`. DNS-запис `app`
+видаляється окремо в NIC.UA. Ці команди не видаляють EKS, ingress-nginx,
+ArgoCD або спільний Network Load Balancer.

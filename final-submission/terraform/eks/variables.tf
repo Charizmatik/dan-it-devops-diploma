@@ -77,6 +77,37 @@ variable "ingress_nginx_chart_version" {
   default     = "4.15.1"
 }
 
+variable "argocd_chart_version" {
+  description = "Pinned argo-cd Helm chart version."
+  type        = string
+  default     = "10.4.0"
+}
+
+variable "argocd_hostname" {
+  description = "Public DNS hostname for the Argo CD UI, for example argocd.mikoladolia.pp.ua."
+  type        = string
+
+  validation {
+    condition = length(var.argocd_hostname) <= 253 && can(regex(
+      "^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.?$",
+      var.argocd_hostname,
+    ))
+    error_message = "argocd_hostname must be a valid lowercase DNS hostname."
+  }
+}
+
+variable "argocd_route53_zone_id" {
+  description = "Optional Route53 public hosted zone ID. When null, Terraform outputs the CNAME target but does not create DNS."
+  type        = string
+  default     = null
+  nullable    = true
+
+  validation {
+    condition     = var.argocd_route53_zone_id == null || can(regex("^Z[A-Z0-9]+$", var.argocd_route53_zone_id))
+    error_message = "argocd_route53_zone_id must be null or a Route53 hosted zone ID beginning with Z."
+  }
+}
+
 variable "tags" {
   description = "Tags applied to AWS resources managed by this configuration."
   type        = map(string)

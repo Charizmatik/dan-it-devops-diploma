@@ -17,6 +17,13 @@ cluster_endpoint_public_access_cidrs = ["203.0.113.10/32"]
 
 node_instance_types = ["t3.small"]
 
+# Group 13 example from the assignment. Change the cluster label if needed.
+argocd_hostname = "argocd.mikoladolia.pp.ua"
+
+# Set to a public Route53 hosted zone ID only when that zone is managed in
+# this AWS account. Leave null when the curator or another DNS provider owns it.
+argocd_route53_zone_id = null
+
 tags = {
   Environment = "diploma"
   ManagedBy   = "Terraform"

@@ -24,10 +24,26 @@ output "configure_kubectl_command" {
 }
 
 output "verification_commands" {
-  description = "Commands for verifying the single node and ingress-nginx installation."
+  description = "Commands for verifying the single node, ingress-nginx and Argo CD installation."
   value = [
     "kubectl get nodes -o wide",
     "kubectl get pods -n ingress-nginx -o wide",
     "kubectl get service -n ingress-nginx ingress-nginx-controller",
+    "kubectl get pods,service,ingress -n argocd",
   ]
+}
+
+output "argocd_url" {
+  description = "Public Argo CD UI URL. It becomes reachable after its DNS record resolves."
+  value       = "http://${var.argocd_hostname}"
+}
+
+output "argocd_dns_target" {
+  description = "Create a CNAME from argocd_hostname to this ingress-nginx NLB hostname when Route53 is managed externally."
+  value       = data.kubernetes_service_v1.ingress_nginx.status[0].load_balancer[0].ingress[0].hostname
+}
+
+output "argocd_dns_managed_by_terraform" {
+  description = "Whether this configuration creates the Argo CD Route53 record."
+  value       = var.argocd_route53_zone_id != null
 }

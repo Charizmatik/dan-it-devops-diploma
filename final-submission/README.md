@@ -39,6 +39,12 @@ Dashboard з live-даними зібрано в
 `sha-359aa5ae88ed778544c152b34f4a85a2827b1292`. Публічний API не розкриває
 назву pod, namespace, hostname node, повний SHA або точну patch-версію runtime.
 [Перевірка dashboard](evidence/13-dashboard-live.md).
+П'ятий етап виконано: [ArgoCD Application](argocd/application.yaml) стежить за
+гілкою `main` і шляхом `final-submission/k8s`, автоматично синхронізує зміни,
+видаляє вилучені з Git ресурси та виправляє drift. Фактичний коміт
+`c8e8e54fe796c43a573a8185707c71151eac2c32` автоматично спричинив новий
+rollout; Application повернувся до стану `Synced / Healthy`.
+[Протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
 Стан робіт і доказів: [CHECKLIST.md](CHECKLIST.md).
 
 ## Запланований склад
@@ -48,7 +54,7 @@ Dashboard з live-даними зібрано в
 - GitHub Actions workflow для збірки й публікації образу в Docker Hub.
 - Terraform для EKS з однією node group та одним node, nginx ingress controller і ArgoCD.
 - Kubernetes manifests: Deployment, Service, Ingress.
-- ArgoCD Application з автоматичною синхронізацією.
+- ArgoCD Application з автоматичною синхронізацією — підготовлено й перевірено.
 - Інструкції розгортання, перевірки, демонстрації оновлення й видалення створених ресурсів.
 - Скріни та підтвердження виконання в `evidence/`.
 
@@ -75,8 +81,10 @@ Dashboard з live-даними зібрано в
 - DNS-записи власного домену керуються через NIC.UA; Route53 для них не
   використовується.
 
-Конкретні значення та команди відтворення додаватимуться після узгодження й перевірки.
-Секрети не входять до матеріалів здачі.
+Конкретні значення й команди відтворення наведено у тематичних документах
+`DOCKER.md`, `CI.md`, `EKS.md`, `ARGOCD.md`, `KUBERNETES.md` і `DOMAIN.md`.
+Секрети не входять до матеріалів здачі; для CI потрібні лише GitHub Secrets
+`DOCKERHUB_USERNAME` і `DOCKERHUB_TOKEN` без збереження їхніх значень у Git.
 
 ## Особливості перенесення
 
