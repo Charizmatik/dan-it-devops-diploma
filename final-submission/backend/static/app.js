@@ -1,4 +1,4 @@
-const fields = ["service", "pod", "namespace", "node", "version", "python", "platform"];
+const fields = ["service", "environment", "runtime", "release"];
 document.getElementById("publicHostname").textContent = window.location.hostname || "app.mikoladolia.pp.ua";
 
 function formatUptime(totalSeconds) {
@@ -27,7 +27,6 @@ async function refreshStatus() {
     setText("status", data.status === "ok" ? "ALL SYSTEMS OPERATIONAL" : String(data.status).toUpperCase());
     setText("podIp", data.ip);
     setText("uptime", formatUptime(data.uptime_seconds));
-    setText("requests", data.requests_served);
     setText("serverTime", new Date(data.server_time).toLocaleTimeString([], { hour12: false, timeZone: "UTC" }) + " UTC");
     fields.forEach((field) => setText(field, data[field]));
   } catch (error) {

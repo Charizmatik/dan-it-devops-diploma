@@ -2,9 +2,8 @@
 
 import json
 import os
-import platform
 import socket
-import threading
+import sys
 import time
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -14,8 +13,6 @@ from urllib.parse import urlsplit
 
 STATIC_DIR = Path(__file__).with_name("static")
 STARTED_AT = time.monotonic()
-REQUEST_LOCK = threading.Lock()
-REQUEST_COUNT = 0
 
 
 def get_ip_address():
@@ -28,28 +25,19 @@ def get_ip_address():
         return "unknown"
 
 
-def next_request_number():
-    global REQUEST_COUNT
-    with REQUEST_LOCK:
-        REQUEST_COUNT += 1
-        return REQUEST_COUNT
-
-
 def status_payload():
     """Return safe runtime metadata used by the dashboard."""
+    version = os.environ.get("APP_VERSION", "development")
+    release = version.removeprefix("sha-")[:8] if version != "development" else version
     return {
         "status": "ok",
         "service": "dan-it-backend",
         "ip": get_ip_address(),
-        "pod": os.environ.get("POD_NAME", socket.gethostname()),
-        "namespace": os.environ.get("POD_NAMESPACE", "local"),
-        "node": os.environ.get("NODE_NAME", "local-machine"),
-        "version": os.environ.get("APP_VERSION", "development"),
+        "environment": "AWS EKS" if os.environ.get("POD_IP") else "local",
+        "release": release,
         "uptime_seconds": round(time.monotonic() - STARTED_AT),
         "server_time": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "python": platform.python_version(),
-        "platform": platform.system().lower(),
-        "requests_served": next_request_number(),
+        "runtime": f"Python {sys.version_info.major}.{sys.version_info.minor}",
     }
 
 
