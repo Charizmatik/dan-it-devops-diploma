@@ -5,15 +5,18 @@
 
 ## Підтверджений результат
 
-[Запуск №2](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33680105744) від 02.09.2026 завершився успішно за 47 секунд.
-Опубліковано `latest` і `sha-a3d755c05d915d6a3b24948512b28a3a6db47a80`.
-Образ завантажено з Docker Hub і перевірено локально. [Скріни та протоколи](evidence/03-ci-publication.md).
+[Запуск dashboard](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33973964536)
+від 05.09.2026 завершився успішно. Опубліковано `latest` і
+`sha-37bae4d0ff8a1f9c0fbab11ecb5f481eb8e3626e`; цей immutable тег розгорнуто
+в EKS. Початкова публікація та її скріни збережені в
+[протоколі етапу 1](evidence/03-ci-publication.md).
 
 ## Як працює workflow
 
 1. Після push у `main`, що змінює backend, Dockerfile, `.dockerignore` чи активний workflow, GitHub запускає збірку.
 2. Збирається Linux/amd64 образ із контекстом `final-submission/`.
-3. Тимчасовий контейнер перевіряється: HTTP 200 на `/`, правильна IP адреса, HTTP 404 на невідомому шляху, UID 10001.
+3. Тимчасовий контейнер перевіряється: dashboard на `/`, `/healthz`, JSON API,
+   правильна IP адреса, HTTP 404 на невідомому шляху та UID 10001.
 4. Після успішної перевірки виконується вхід у Docker Hub через GitHub Secrets.
 5. Образ публікується з тегами `latest` і `sha-<повний SHA коміту>`. Digest виводиться в підсумку запуску.
 
@@ -63,4 +66,5 @@ GitHub не запускає workflow із вкладеної теки авто�
 - Якщо змінюється Docker Hub namespace або репозиторій образів, змініть `IMAGE_NAME` і налаштуйте Secrets відповідного акаунта.
 - Перевірте назву основної гілки у тригерах та умовах публікації.
 
-Публікація образу сама по собі не оновлює Kubernetes Deployment. Зв'язок із маніфестами та ArgoCD буде реалізований на наступних етапах.
+Після публікації dashboard Deployment вручну оновлено на immutable SHA-тег.
+Автоматичну синхронізацію маніфестів реалізує ArgoCD Application на етапі 5.

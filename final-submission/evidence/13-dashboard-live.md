@@ -2,23 +2,24 @@
 
 Дата перевірки: 5 вересня 2026 року.
 
-Commit `37bae4d0ff8a1f9c0fbab11ecb5f481eb8e3626e` додав адаптивний dashboard,
-JSON API та окремий Kubernetes health endpoint.
+Dashboard містить адаптивний інтерфейс, JSON API та окремий Kubernetes health
+endpoint. Security-реліз `359aa5ae88ed778544c152b34f4a85a2827b1292`
+мінімізував публічні runtime-дані.
 
-[GitHub Actions run 33973964536](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33973964536)
+[Security release run 33974912832](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33974912832)
 завершився зі статусом `success`. Усі кроки, включно зі збіркою тестового
 образу, smoke test, входом у Docker Hub і публікацією, завершилися успішно.
 
 Опублікований і розгорнутий immutable образ:
 
 ```text
-mikoladolia/dan-it-backend:sha-37bae4d0ff8a1f9c0fbab11ecb5f481eb8e3626e
+mikoladolia/dan-it-backend:sha-359aa5ae88ed778544c152b34f4a85a2827b1292
 ```
 
-Rolling update в EKS завершився успішно. Новий pod:
+Rolling update в EKS завершився успішно:
 
 ```text
-dan-it-backend-846954869-ggc6s   1/1   Running   0   172.31.0.19
+Deployment dan-it-backend   1/1 available   pod restarts: 0
 ```
 
 Фактична зовнішня перевірка `http://app.mikoladolia.pp.ua`:
@@ -36,16 +37,17 @@ API повернув:
 ```json
 {
   "status": "ok",
-  "ip": "172.31.0.19",
-  "pod": "dan-it-backend-846954869-ggc6s",
-  "namespace": "dan-it-backend",
-  "version": "sha-37bae4d0ff8a1f9c0fbab11ecb5f481eb8e3626e",
-  "python": "3.12.14"
+  "ip": "172.31.12.11",
+  "environment": "AWS EKS",
+  "release": "359aa5ae",
+  "runtime": "Python 3.12"
 }
 ```
 
-IP із API відповідає новому pod. Dashboard автоматично оновлює телеметрію
-кожні 5 секунд і не завантажує зовнішні JavaScript/CSS залежності.
+API додатково повертає uptime та серверний час. Назва pod, namespace, hostname
+node, повний SHA, patch-версія Python і лічильник запитів відсутні. Dashboard
+автоматично оновлює телеметрію кожні 5 секунд і не завантажує зовнішні
+JavaScript/CSS залежності.
 
 ## Скріншот
 

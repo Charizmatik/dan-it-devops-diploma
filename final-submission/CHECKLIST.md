@@ -17,8 +17,8 @@
 | --- | --- | --- | --- |
 | 1. Python backend, Docker, GitHub Actions, Docker Hub | [x] | [x] | [x] |
 | 2. EKS, одна node group з одним node, nginx ingress | [x] | [x] | [x] |
-| 3. ArgoCD через Terraform і DNS | [ ] | [ ] | [ ] |
-| 4. Deployment, Service, Ingress і DNS застосунку | [ ] | [ ] | [ ] |
+| 3. ArgoCD через Terraform і DNS | [x] | [x] | [x] |
+| 4. Deployment, Service, Ingress і DNS застосунку | [x] | [x] | [ ] |
 | 5. ArgoCD Application та автоматичне оновлення | [ ] | [ ] | [ ] |
 
 - [ ] Додано інструкції відтворення в окремому середовищі.
@@ -41,3 +41,40 @@
 - [x] Підтверджено один `Ready` node та працездатний ingress-nginx.
 - [x] Збережено фактичні скріни AWS і kubectl для захисту.
 - [x] Збережено окремий скрін активних namespace, включно з `ingress-nginx`.
+
+## Підпункти етапу 3
+
+- [x] ArgoCD описано як Terraform `helm_release` з зафіксованою версією chart.
+- [x] Додано namespace `argocd` та Ingress через наявний ingress-nginx.
+- [x] Host налаштовано у власному домені: `argocd.mikoladolia.pp.ua`.
+- [x] Додано опційний Route53 CNAME та output цілі для зовнішнього DNS.
+- [x] Конфігурацію оптимізовано для єдиного `t3.small` node.
+- [x] Локально виконано `terraform fmt`, `init` і `validate`.
+- [x] Підтверджено власний домен `mikoladolia.pp.ua`; DNS керується через NIC.UA.
+- [x] Виконано `terraform plan`: 1 add, 0 change, 0 destroy.
+- [x] ArgoCD реально встановлено в EKS; основні pods мають стан `Running`.
+- [x] У NIC.UA створено CNAME `argocd` на ingress-nginx NLB з TTL 3600.
+- [x] Публічний Google DNS резолвить ім'я на ingress-nginx NLB.
+- [x] HTTP-маршрут за host ArgoCD повертає `200 OK` і HTML із title `Argo CD`.
+- [x] Збережено фактичний скрін UI ArgoCD за DNS-іменем без пароля адміністратора.
+- [x] Задокументовано реєстратора, реєстрову активацію PP.UA, NS, DNS-записи,
+  строки дії та порядок відновлення у [DOMAIN.md](DOMAIN.md).
+
+## Підпункти етапу 4
+
+- [x] Підготовлено namespace, Deployment, Service, Ingress і Kustomization.
+- [x] Deployment використовує перевірений immutable SHA-тег образу з Docker Hub.
+- [x] `POD_IP` передається через Downward API; додано readiness і liveness probes.
+- [x] Контейнер працює без root із базовими обмеженнями security context.
+- [x] Ingress налаштовано для `app.mikoladolia.pp.ua` через IngressClass `nginx`.
+- [x] Додано інструкції застосування, перевірки, DNS і видалення ресурсів.
+- [x] Маніфести застосовано в EKS; Deployment успішно завершив rollout.
+- [x] Підтверджено pod `Running`, Service endpoints та адресу Ingress.
+- [x] У NIC.UA створено CNAME `app` на поточний ingress-nginx NLB.
+- [x] Публічний DNS резолвить `app.mikoladolia.pp.ua`.
+- [x] HTTP-запит за DNS-іменем повертає 200 і фактичний IP pod.
+- [x] Збережено фактичний текстовий протокол четвертого етапу.
+- [x] Збережено повнорозмірний скрін live dashboard після розгортання.
+- [x] Додано live DevOps dashboard, JSON API та окремий health endpoint.
+- [x] Новий образ зібрано й опубліковано успішним GitHub Actions run.
+- [x] EKS Deployment оновлено на immutable dashboard-тег; rollout успішний.

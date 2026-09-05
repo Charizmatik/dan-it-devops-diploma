@@ -21,7 +21,9 @@ docker build -t dan-it-backend:local .
 docker run --detach --rm --name dan-it-backend -p 127.0.0.1:8000:8000 dan-it-backend:local
 ```
 
-Відкрийте http://localhost:8000/ у браузері. Очікується HTTP 200 та JSON зі статусом `ok` і IP адресою контейнера.
+Відкрийте http://localhost:8000/ у браузері. Очікується HTTP 200 та DevOps
+dashboard. Машинний JSON зі статусом і IP контейнера доступний на
+http://localhost:8000/api/status, healthcheck — на http://localhost:8000/healthz.
 Порт опублікований лише на локальному комп'ютері. `EXPOSE 8000` у Dockerfile описує порт; публікує його параметр `-p`.
 
 Перевірка в PowerShell:

@@ -5,7 +5,8 @@
 
 ## Поточний стан
 
-Підготовлено [Python backend](backend/README.md): `GET /` повертає HTTP 200 і JSON з IP адресою.
+Підготовлено [Python backend](backend/README.md): `GET /` повертає live DevOps
+dashboard, а `/api/status` — JSON з IP та Kubernetes runtime-даними.
 Локальну перевірку пройдено на Python 3.12.13: [протокол](evidence/01-backend-local.md).
 Підготовлено [Dockerfile та інструкцію Docker](DOCKER.md).
 Образ `dan-it-backend:local` зібрано та перевірено локально: HTTP 200, IP контейнера й запуск без root. [Протокол](evidence/02-docker-local.md).
@@ -16,6 +17,28 @@
 `t3.small` node та ingress-nginx через Helm. Підтверджено `Ready` node,
 controller `1/1 Running`, активний Network Load Balancer і нульовий Terraform
 drift. [Фактичний протокол](evidence/06-eks-and-ingress-live.md).
+Для третього етапу підготовлено [Terraform-код ArgoCD і DNS](ARGOCD.md):
+офіційний Helm chart `argo-cd` 10.4.0, Ingress через наявний ingress-nginx,
+опційний Route53 CNAME і конфігурація для одного `t3.small` node. Для власного
+домену зареєстровано `mikoladolia.pp.ua`; host ArgoCD —
+`argocd.mikoladolia.pp.ua`. Terraform встановив ArgoCD у EKS; усі основні pods
+мають стан `Running`, а Ingress містить потрібний host і адресу спільного NLB.
+У NIC.UA створено відповідний CNAME; публічний Google DNS уже повертає запис,
+а HTTP-перевірка маршруту через NLB повернула `200 OK` і сторінку `Argo CD`.
+[Фактичний протокол](evidence/10-argocd-live.md).
+[Повна документація домену, реєстратора, NS і DNS](DOMAIN.md).
+Четвертий етап розгорнуто й перевірено: [Kubernetes manifests](KUBERNETES.md)
+створили окремий namespace, Deployment із перевіреним SHA-тегом образу,
+Service та Ingress для `app.mikoladolia.pp.ua`. У NIC.UA створено CNAME `app`
+на спільний ingress-nginx NLB. Публічний DNS резолвить ім'я, HTTP повертає
+`200 OK`, а IP у JSON збігається з IP pod.
+[Фактичний протокол](evidence/12-kubernetes-app-live.md).
+Dashboard з live-даними зібрано в
+[GitHub Actions](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33973964536)
+Після hardening dashboard розгорнуто в EKS як образ
+`sha-359aa5ae88ed778544c152b34f4a85a2827b1292`. Публічний API не розкриває
+назву pod, namespace, hostname node, повний SHA або точну patch-версію runtime.
+[Перевірка dashboard](evidence/13-dashboard-live.md).
 Стан робіт і доказів: [CHECKLIST.md](CHECKLIST.md).
 
 ## Запланований склад
@@ -37,12 +60,20 @@ drift. [Фактичний протокол](evidence/06-eks-and-ingress-live.md
 - Образ Docker Hub: `mikoladolia/dan-it-backend`.
 - EKS Kubernetes version: `1.35`.
 - ingress-nginx Helm chart: `4.15.1`.
+- ArgoCD Helm chart: `10.4.0`.
+- Номер групи: `13`.
+- Назва тестового EKS-кластера: `trezor`.
+- Host ArgoCD у власному домені: `argocd.mikoladolia.pp.ua`.
+- Host backend-застосунку: `app.mikoladolia.pp.ua`.
+- Реєстратор і DNS-провайдер: NIC.UA; NS — `ns10/ns11/ns12.uadns.com`.
+- Домен дійсний до 4 вересня 2027 року; NS-сервіс NIC.UA потрібно продовжити до
+  4 грудня 2026 року.
 
 ## Параметри, які потрібно визначити
 
 - Назва теки для здачі.
-- Номер групи, назва кластера, AWS region та спосіб доступу до AWS.
-- Домен групи, DNS-імена застосунку та ArgoCD, спосіб створення DNS-записів.
+- DNS-записи власного домену керуються через NIC.UA; Route53 для них не
+  використовується.
 
 Конкретні значення та команди відтворення додаватимуться після узгодження й перевірки.
 Секрети не входять до матеріалів здачі.
