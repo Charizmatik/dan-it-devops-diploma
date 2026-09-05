@@ -7,6 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY backend/app.py ./app.py
+COPY backend/static/ ./static/
 
 USER 10001:10001
 

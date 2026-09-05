@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#070b17">
+    <title>DAN.IT // DevOps Control Plane</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="DAN.IT DevOps home">
+        <span class="brand-mark">D</span>
+        <span><strong>DAN.IT</strong><small>DEVOPS // GROUP 13</small></span>
+      </a>
+      <div class="live-pill"><span class="pulse"></span><span id="connectionText">CONNECTING</span></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span>01</span> PRODUCTION WORKLOAD</div>
+        <h1>Infrastructure.<br><em>Alive.</em></h1>
+        <p class="hero-copy">A live view into a containerized Python service running on Amazon EKS, delivered through Kubernetes and nginx ingress.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/api/status">OPEN JSON API <span>↗</span></a>
+          <a class="button ghost" href="/healthz">HEALTH ENDPOINT <span>→</span></a>
+        </div>
+      </section>
+
+      <section class="dashboard" aria-live="polite">
+        <article class="status-card">
+          <div class="card-label">SYSTEM STATUS</div>
+          <div class="status-line">
+            <div><span class="status-dot"></span><strong id="status">INITIALIZING</strong></div>
+            <span class="mono" id="serverTime">--:--:-- UTC</span>
+          </div>
+          <div class="signal"><span></span></div>
+        </article>
+
+        <article class="metric-card accent">
+          <div class="card-label">POD IP</div>
+          <strong class="metric mono" id="podIp">---.---.---.---</strong>
+          <span class="metric-note">DOWNWARD API</span>
+        </article>
+
+        <article class="metric-card">
+          <div class="card-label">UPTIME</div>
+          <strong class="metric" id="uptime">--</strong>
+          <span class="metric-note">CURRENT CONTAINER</span>
+        </article>
+
+        <article class="details-card">
+          <div class="card-heading">
+            <div><div class="card-label">WORKLOAD IDENTITY</div><h2>Kubernetes runtime</h2></div>
+            <span class="kube-icon">K8S</span>
+          </div>
+          <dl>
+            <div><dt>Service</dt><dd id="service">—</dd></div>
+            <div><dt>Pod</dt><dd id="pod">—</dd></div>
+            <div><dt>Namespace</dt><dd id="namespace">—</dd></div>
+            <div><dt>Node</dt><dd id="node">—</dd></div>
+            <div><dt>Image version</dt><dd id="version">—</dd></div>
+          </dl>
+        </article>
+
+        <article class="pipeline-card">
+          <div class="card-label">DELIVERY PATH</div>
+          <h2>Request topology</h2>
+          <div class="pipeline">
+            <div class="pipeline-node"><span>01</span><strong>DNS</strong><small>NIC.UA</small></div><i></i>
+            <div class="pipeline-node"><span>02</span><strong>NLB</strong><small>AWS</small></div><i></i>
+            <div class="pipeline-node"><span>03</span><strong>INGRESS</strong><small>NGINX</small></div><i></i>
+            <div class="pipeline-node active"><span>04</span><strong>POD</strong><small>PYTHON</small></div>
+          </div>
+          <div class="runtime-strip">
+            <span>PYTHON <b id="python">—</b></span>
+            <span>PLATFORM <b id="platform">—</b></span>
+            <span>REQUESTS <b id="requests">—</b></span>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer><span>DEVOPS DIPLOMA // 2026</span><span class="mono">app.mikoladolia.pp.ua</span></footer>
+  </body>
+</html>

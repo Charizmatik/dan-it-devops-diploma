@@ -65,10 +65,10 @@ jobs:
 
           for attempt in range(30):
               try:
-                  with urlopen("http://127.0.0.1:8000/", timeout=2) as response:
+                  with urlopen("http://127.0.0.1:8000/healthz", timeout=2) as response:
                       assert response.status == 200
                       assert response.headers.get_content_type() == "application/json"
-                      payload = json.load(response)
+                      assert json.load(response) == {"status": "ok"}
                   break
               except (URLError, ConnectionError, TimeoutError):
                   time.sleep(0.5)
@@ -77,8 +77,19 @@ jobs:
 
           info = json.loads(subprocess.check_output(["docker", "inspect", "backend-smoke"]))[0]
           container_ip = next(iter(info["NetworkSettings"]["Networks"].values()))["IPAddress"]
-          assert payload == {"status": "ok", "ip": container_ip}, payload
-          print("GET / -> HTTP 200:", payload)
+          with urlopen("http://127.0.0.1:8000/", timeout=2) as response:
+              assert response.status == 200
+              assert response.headers.get_content_type() == "text/html"
+              html = response.read().decode("utf-8")
+              assert "DevOps Control Plane" in html
+          with urlopen("http://127.0.0.1:8000/api/status", timeout=2) as response:
+              assert response.status == 200
+              payload = json.load(response)
+          assert payload["status"] == "ok", payload
+          assert payload["service"] == "dan-it-backend", payload
+          assert payload["ip"] == container_ip, payload
+          print("GET / -> dashboard HTTP 200")
+          print("GET /api/status ->", payload)
           try:
               urlopen("http://127.0.0.1:8000/missing", timeout=2)
               raise AssertionError("Expected HTTP 404")
@@ -121,5 +132,5 @@ jobs:
             echo "- Image: ${IMAGE_NAME}"
             echo "- Tags: latest, sha-${GITHUB_SHA}"
             echo "- Digest: ${IMAGE_DIGEST}"
-            echo '- Checks passed: HTTP 200, container IP, HTTP 404, UID 10001.'
+            echo '- Checks passed: dashboard, health API, container IP, HTTP 404, UID 10001.'
           } >> "$GITHUB_STEP_SUMMARY"
