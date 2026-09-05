@@ -13,6 +13,8 @@ spec:
       app.kubernetes.io/name: dan-it-backend
   template:
     metadata:
+      annotations:
+        gitops.dan-it.dev/deployed-by: argocd
       labels:
         app.kubernetes.io/name: dan-it-backend
         app.kubernetes.io/part-of: dan-it-diploma
