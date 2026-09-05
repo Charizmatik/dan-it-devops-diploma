@@ -1,4 +1,5 @@
 const fields = ["service", "pod", "namespace", "node", "version", "python", "platform"];
+document.getElementById("publicHostname").textContent = window.location.hostname || "app.mikoladolia.pp.ua";
 
 function formatUptime(totalSeconds) {
   const seconds = Math.max(0, Number(totalSeconds) || 0);

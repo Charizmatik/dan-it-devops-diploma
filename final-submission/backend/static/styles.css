@@ -64,6 +64,12 @@ main { padding: 92px 0 56px; }
 h1 { margin: 22px 0; max-width: 800px; font-size: clamp(64px, 10vw, 128px); font-weight: 850; line-height: .82; letter-spacing: -.075em; }
 h1 em { color: transparent; font-style: normal; -webkit-text-stroke: 1px rgba(244,247,255,.72); }
 .hero-copy { max-width: 650px; color: #aeb8ce; font-size: clamp(17px, 2vw, 21px); line-height: 1.65; }
+.public-endpoint { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px; max-width: 760px; margin-top: 32px; padding: 17px 20px; border: 1px solid rgba(77,231,255,.28); background: linear-gradient(90deg, rgba(77,231,255,.09), rgba(139,92,246,.05)); box-shadow: inset 3px 0 0 var(--cyan); }
+.public-endpoint span, .public-endpoint small { color: var(--muted); font: 700 10px/1 ui-monospace, monospace; letter-spacing: .14em; }
+.public-endpoint span { display: flex; align-items: center; gap: 8px; }
+.public-endpoint span i { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
+.public-endpoint strong { color: var(--cyan); font: 800 clamp(16px, 2.1vw, 24px)/1 ui-monospace, monospace; letter-spacing: -.02em; }
+.public-endpoint small { color: #697690; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 .button { display: inline-flex; align-items: center; justify-content: space-between; min-width: 205px; padding: 15px 17px; border: 1px solid var(--line); color: var(--text); text-decoration: none; font: 750 11px/1 ui-monospace, monospace; letter-spacing: .08em; transition: transform .2s, border-color .2s, background .2s; }
 .button:hover { transform: translateY(-2px); border-color: var(--cyan); }
@@ -124,6 +130,7 @@ footer { display: flex; justify-content: space-between; padding: 28px 0 38px; bo
   .live-pill span:last-child { display: none; }
   main { padding-top: 52px; }
   h1 { font-size: 60px; }
+  .public-endpoint { grid-template-columns: 1fr; gap: 10px; }
   .dashboard { margin-top: 64px; }
   .metric-card { grid-column: span 12; }
   .pipeline { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
