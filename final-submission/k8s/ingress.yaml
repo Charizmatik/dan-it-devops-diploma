@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dan-it-backend
+  namespace: dan-it-backend
+  labels:
+    app.kubernetes.io/name: dan-it-backend
+    app.kubernetes.io/part-of: dan-it-diploma
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app.mikoladolia.pp.ua
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dan-it-backend
+                port:
+                  name: http

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dan-it-backend
+  namespace: dan-it-backend
+  labels:
+    app.kubernetes.io/name: dan-it-backend
+    app.kubernetes.io/part-of: dan-it-diploma
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: dan-it-backend
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
