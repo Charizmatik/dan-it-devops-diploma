@@ -24,7 +24,6 @@ def get_ip_address():
     except socket.gaierror:
         return "unknown"
 
-
 def status_payload():
     version = os.environ.get("APP_VERSION", "development")
     release = version.removeprefix("sha-")[:8] if version != "development" else version
@@ -38,7 +37,6 @@ def status_payload():
         "server_time": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "runtime": f"Python {sys.version_info.major}.{sys.version_info.minor}",
     }
-
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -358,8 +356,7 @@ pod/dan-it-backend-68b56bdcbd-ktjmd   1/1   Running
 
 [Повний протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
 
-Перший дослід змінював annotation маніфесту. Після зауважень 07.09.2026
-додано й реально перевірено job `update-gitops`: після публікації образу він
+Job `update-gitops` після публікації образу
 комітить новий SHA-тег і `APP_VERSION` у Deployment.
 
 Окремий коміт лише backend
@@ -374,10 +371,6 @@ pod/dan-it-backend-68b56bdcbd-ktjmd   1/1   Running
 ![Налаштування source та auto-sync](evidence/21-argocd-source-autosync-policy.png)
 ![Історія автоматичних синхронізацій](evidence/26-argocd-automated-sync-history.png)
 ![Знімок збереженого фактичного виводу kubectl](evidence/22-namespaces-and-node-live.png)
-
-[Наскрізний протокол, SHA, digest та решта доказів](evidence/29-gitops-end-to-end.md).
-Використання власного домену відповідає наданому роз’ясненню куратора для
-студентів із власним AWS-акаунтом. Скрин листування не додається за рішенням користувача.
 
 ## 9. Підсумок
 
