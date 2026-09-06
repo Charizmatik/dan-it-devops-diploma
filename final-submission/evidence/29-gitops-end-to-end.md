@@ -3,7 +3,7 @@
 Перевірено 07.09.2026, близько 00:40–00:52 за Києвом (UTC+03:00).
 У JSON час Kubernetes/GitHub подано як 06.09.2026 21:xx UTC — це той самий момент.
 
-## Виправлення
+## Як працює workflow
 
 У workflow додано окремий job `update-gitops` з `contents: write`, залежний
 від успішного `build`. Після публікації він змінює лише image та APP_VERSION
@@ -11,21 +11,21 @@
 inputs, ідемпотентність та звичайний push без force. PR не публікують образи
 та не запускають цей job. Також `.dockerignore` тепер включає dashboard assets.
 
-Початкове виправлення:
+Перший запуск workflow:
 [`20daf2c`](https://github.com/Charizmatik/dan-it-devops-diploma/commit/20daf2cf9fe45f593285c7c7a5060aa65b8880f4),
 [успішний run](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34061846356),
-коміт бота `b3f932424ab284b98c3e40188c13da43eca133b7`.
+коміт pipeline `b3f932424ab284b98c3e40188c13da43eca133b7`.
 Його ArgoCD також автоматично розгорнув.
 
 ## Окрема демонстрація зміни лише backend
 
-| Ланка | Фактичний результат |
+| Етап | Результат |
 | --- | --- |
 | Source-коміт | [`4a9d7664d5f4a94e027ad2165764e2ceb991389f`](https://github.com/Charizmatik/dan-it-devops-diploma/commit/4a9d7664d5f4a94e027ad2165764e2ceb991389f) |
 | Зміни source | Лише `backend/app.py`, `backend/static/app.js`, `backend/static/index.html`; додано delivery в API і UI |
 | GitHub Actions | [34062070590](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590): build — success, update-gitops — success |
 | Образ | `mikoladolia/dan-it-backend:sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f` |
-| GitOps-коміт бота | [`032110361c104a3c4391c87c2c3c2690d78e0fac`](https://github.com/Charizmatik/dan-it-devops-diploma/commit/032110361c104a3c4391c87c2c3c2690d78e0fac) |
+| Коміт оновлення маніфесту | [`032110361c104a3c4391c87c2c3c2690d78e0fac`](https://github.com/Charizmatik/dan-it-devops-diploma/commit/032110361c104a3c4391c87c2c3c2690d78e0fac) |
 | ArgoCD sync revision | `032110361c104a3c4391c87c2c3c2690d78e0fac` |
 | Ініціатор sync | `operation.initiatedBy.automated = true` |
 | Завершення sync | `2026-09-06T21:49:03Z`, phase `Succeeded` |
@@ -36,8 +36,8 @@ inputs, ідемпотентність та звичайний push без force
 
 `kubectl rollout status` завершився повідомленням
 `deployment "dan-it-backend" successfully rolled out`.
-Під час досліду не виконували ручні Sync, `kubectl apply`, `set image` чи
-`rollout restart`. Відкриття Details і History у UI було лише читанням.
+ArgoCD запустив оновлення автоматично — це видно за значенням
+`operation.initiatedBy.automated` в результатах синхронізації.
 
 Docker Hub digest тегу та фактичний pod imageID збігаються:
 
@@ -49,7 +49,7 @@ sha256:3bf49024948c03bb01f3d882f74fce1b6eea7d36fb23c59fda42e3a9ee9968df
 `sha256:2b203a7e7ebbb995e167178646421d115e4643f7ce8bcb6555c2101793400e66`.
 Pod imageID у цьому середовищі посилається на digest індексу тегу.
 
-## Фактичні файли доказів
+## Скриншоти та результати команд
 
 - [Application до виправлення](17-gitops-before-application.json), [pods](17-gitops-before-pods.json).
 - [Application перед окремою зміною backend](18-gitops-baseline-application.json), [pods](18-gitops-baseline-pods.json).

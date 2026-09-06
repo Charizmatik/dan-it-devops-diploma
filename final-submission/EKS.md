@@ -84,15 +84,12 @@ kubectl get service -n ingress-nginx ingress-nginx-controller
 `Running`, а Service має тип `LoadBalancer` і заповнений `EXTERNAL-IP`/hostname.
 Створення hostname NLB після `terraform apply` іноді займає кілька хвилин.
 
-## Докази для захисту
+## Результати перевірки
 
-Зберегти до `evidence/` скріни без секретів:
-
-- AWS Console: кластер у стані `Active`;
-- вкладка Compute: одна node group з desired/min/max = 1;
-- `kubectl get nodes -o wide`: рівно один `Ready` node;
-- `kubectl get pods -n ingress-nginx -o wide`;
-- `kubectl get service -n ingress-nginx ingress-nginx-controller` з hostname NLB.
+Кластер створено, node має стан `Ready`, ingress-nginx працює через
+LoadBalancer. Команди та скриншоти наведено у
+[звіті про розгортання EKS](evidence/06-eks-and-ingress-live.md).
+[Namespaces і node](evidence/22-namespaces-and-node-live.png).
 
 ## Видалення
 

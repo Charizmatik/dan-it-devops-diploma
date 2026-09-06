@@ -96,8 +96,7 @@ Git, а не застосовувати вручну. Фактичну авто�
 комітить SHA-тег, ArgoCD автоматично виконує rollout.
 [Новий протокол зі скрінами Application, policy та sync history](evidence/29-gitops-end-to-end.md).
 
-Початковий пароль адміністратора отримати локально, не додавати до Git і не
-залишати на скрінах:
+Початковий пароль для входу в ArgoCD:
 
 ```powershell
 $encoded = kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.password}'
@@ -106,15 +105,12 @@ $encoded = kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath=
 
 Логін: `admin`. Після першого входу пароль потрібно змінити.
 
-## Докази для захисту
+## Результати перевірки
 
-Зберегти до `evidence/` скріни без паролів і токенів:
-
-- `terraform apply` із доданим Helm release і, за можливості, DNS record;
-- `kubectl get pods,service,ingress -n argocd`;
-- browser з UI ArgoCD за DNS-іменем;
-- Route53 record або панель іншого DNS-провайдера;
-- сторінка ArgoCD з версією, але без секретних даних.
+- [Встановлення ArgoCD і перевірка DNS](evidence/10-argocd-live.md).
+- [Application після розгортання](evidence/25-argocd-final-synced-healthy-tree.png).
+- [Репозиторій та політика синхронізації](evidence/21-argocd-source-autosync-policy.png).
+- [Історія автоматичних оновлень](evidence/26-argocd-automated-sync-history.png).
 
 ## Видалення
 

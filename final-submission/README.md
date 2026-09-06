@@ -1,106 +1,80 @@
-# Матеріали дипломної роботи DevOps
+# Дипломна робота DevOps
 
-Короткий звіт у форматі здачі: [`diploma.md`](diploma.md).
+Python-застосунок працює в AWS EKS. GitHub Actions збирає Docker-образ,
+публікує його в Docker Hub і оновлює тег у Kubernetes-маніфесті. ArgoCD
+відстежує зміни в репозиторії та розгортає нову версію застосунку.
 
-Ця тека призначена для накопичення матеріалів фінальної здачі.
-Матеріали призначені для відтворення в окремому середовищі та розміщення окремою текою в [репозиторії курсу](https://github.com/Charizmatik/dan-it-devops-13-practice).
+Основний звіт із кодом і скриншотами: [diploma.md](diploma.md).
 
-## Поточний стан
+## Застосунок та інфраструктура
 
-Підготовлено [Python backend](backend/README.md): `GET /` повертає live DevOps
-dashboard, а `/api/status` — JSON з IP та Kubernetes runtime-даними.
-Локальну перевірку пройдено на Python 3.12.13: [протокол](evidence/01-backend-local.md).
-Підготовлено [Dockerfile та інструкцію Docker](DOCKER.md).
-Образ `dan-it-backend:local` зібрано та перевірено локально: HTTP 200, IP контейнера й запуск без root. [Протокол](evidence/02-docker-local.md).
-Перший розділ виконано: [GitHub Actions](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33680105744) успішно збирає, перевіряє та публікує образ у [Docker Hub](https://hub.docker.com/r/mikoladolia/dan-it-backend/tags).
-[Інструкція CI](CI.md) · [Підсумок перевірки та скріни](evidence/03-ci-publication.md).
-Другий етап розгорнуто в тестовому AWS-акаунті: [Terraform-код EKS](EKS.md)
-створив кластер `trezor`, одну managed node group `trezor-workers` з одним
-`t3.small` node та ingress-nginx через Helm. Підтверджено `Ready` node,
-controller `1/1 Running`, активний Network Load Balancer і нульовий Terraform
-drift. [Фактичний протокол](evidence/06-eks-and-ingress-live.md).
-Для третього етапу підготовлено [Terraform-код ArgoCD і DNS](ARGOCD.md):
-офіційний Helm chart `argo-cd` 10.4.0, Ingress через наявний ingress-nginx,
-опційний Route53 CNAME і конфігурація для одного `t3.small` node. Для власного
-домену зареєстровано `mikoladolia.pp.ua`; host ArgoCD —
-`argocd.mikoladolia.pp.ua`. Terraform встановив ArgoCD у EKS; усі основні pods
-мають стан `Running`, а Ingress містить потрібний host і адресу спільного NLB.
-У NIC.UA створено відповідний CNAME; публічний Google DNS уже повертає запис,
-а HTTP-перевірка маршруту через NLB повернула `200 OK` і сторінку `Argo CD`.
-[Фактичний протокол](evidence/10-argocd-live.md).
-[Повна документація домену, реєстратора, NS і DNS](DOMAIN.md).
-Четвертий етап розгорнуто й перевірено: [Kubernetes manifests](KUBERNETES.md)
-створили окремий namespace, Deployment із перевіреним SHA-тегом образу,
-Service та Ingress для `app.mikoladolia.pp.ua`. У NIC.UA створено CNAME `app`
-на спільний ingress-nginx NLB. Публічний DNS резолвить ім'я, HTTP повертає
-`200 OK`, а IP у JSON збігається з IP pod.
-[Фактичний протокол](evidence/12-kubernetes-app-live.md).
-Dashboard з live-даними зібрано в
-[GitHub Actions](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33973964536)
-Після hardening dashboard розгорнуто в EKS як образ
-`sha-359aa5ae88ed778544c152b34f4a85a2827b1292`. Публічний API не розкриває
-назву pod, namespace, hostname node, повний SHA або точну patch-версію runtime.
-[Перевірка dashboard](evidence/13-dashboard-live.md).
-Auto-sync маніфестів перевірено: [ArgoCD Application](argocd/application.yaml) стежить за
-гілкою `main` і шляхом `final-submission/k8s`, автоматично синхронізує зміни,
-видаляє вилучені з Git ресурси та виправляє drift. Фактичний коміт
-`c8e8e54fe796c43a573a8185707c71151eac2c32` автоматично спричинив новий
-rollout; Application повернувся до стану `Synced / Healthy`.
-[Протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
-Стан робіт і доказів: [CHECKLIST.md](CHECKLIST.md).
+- [Застосунок](http://app.mikoladolia.pp.ua): dashboard зі статусом сервісу, IP pod і версією образу.
+- [ArgoCD](http://argocd.mikoladolia.pp.ua): керування розгортанням застосунку.
+- [GitHub](https://github.com/Charizmatik/dan-it-devops-diploma): код, маніфести й workflow.
+- [Docker Hub](https://hub.docker.com/r/mikoladolia/dan-it-backend/tags): опубліковані образи.
 
-07.09.2026 виправлено й перевірено повний цикл: зміна backend `4a9d766` →
-успішний CI → коміт бота `0321103` → автоматичний rollout ArgoCD.
-Поточний образ: `sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f`.
-Збережено скріни Application, налаштувань, історії sync, CI, нового dashboard
-та записаного фактичного виводу namespaces.
-[Повний протокол і докази](evidence/29-gitops-end-to-end.md) · [Механізм CI](CI.md).
+Кластер `trezor` розміщений у `eu-central-1`. Він має одну node group
+`trezor-workers` з одним `t3.small` node. Вхідний трафік проходить через
+AWS Network Load Balancer та ingress-nginx. Terraform створює кластер
+і встановлює ingress-nginx та ArgoCD через Helm.
 
-## Запланований склад
+## Автоматичне оновлення
 
-- Python backend: відповідь HTTP 200 на `/`, бажано з IP адресою пода.
-- Dockerfile та інструкції локального запуску.
-- GitHub Actions workflow для збірки й публікації образу в Docker Hub.
-- Terraform для EKS з однією node group та одним node, nginx ingress controller і ArgoCD.
-- Kubernetes manifests: Deployment, Service, Ingress.
-- ArgoCD Application з автоматичною синхронізацією — підготовлено й перевірено.
-- Інструкції розгортання, перевірки, демонстрації оновлення й видалення створених ресурсів.
-- Скріни та підтвердження виконання в `evidence/`.
+1. Зміна backend у гілці `main` запускає GitHub Actions.
+2. Workflow збирає образ, перевіряє HTTP-відповіді та запуск без root.
+3. Після перевірки образ публікується з тегами `latest` і `sha-<commit>`.
+4. Job `update-gitops` оновлює `image` та `APP_VERSION` у Deployment і створює коміт.
+5. ArgoCD синхронізує маніфест і запускає нову версію застосунку.
 
-## Визначені параметри
+Цей цикл перевірено 07.09.2026: зміна backend `4a9d766` запустила
+[CI](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590),
+pipeline оновив маніфест у коміті `0321103`, після чого ArgoCD завершив
+розгортання зі станом `Synced / Healthy`.
 
-- Робочий репозиторій для CI/GitOps: https://github.com/Charizmatik/dan-it-devops-diploma.
-- Основна гілка: `main`.
-- Docker Hub namespace: `mikoladolia`.
-- Образ Docker Hub: `mikoladolia/dan-it-backend`.
-- EKS Kubernetes version: `1.35`.
-- ingress-nginx Helm chart: `4.15.1`.
-- ArgoCD Helm chart: `10.4.0`.
-- Номер групи: `13`.
-- Назва тестового EKS-кластера: `trezor`.
-- Host ArgoCD у власному домені: `argocd.mikoladolia.pp.ua`.
-- Host backend-застосунку: `app.mikoladolia.pp.ua`.
-- Реєстратор і DNS-провайдер: NIC.UA; NS — `ns10/ns11/ns12.uadns.com`.
-- Домен дійсний до 4 вересня 2027 року; NS-сервіс NIC.UA потрібно продовжити до
-  4 грудня 2026 року.
+## Документація
 
-## Параметри, які потрібно визначити
+| Файл | Зміст |
+| --- | --- |
+| [backend/README.md](backend/README.md) | Backend та локальний запуск |
+| [DOCKER.md](DOCKER.md) | Збірка і запуск контейнера |
+| [CI.md](CI.md) | Workflow, теги образів і GitHub Secrets |
+| [EKS.md](EKS.md) | Створення та видалення інфраструктури |
+| [ARGOCD.md](ARGOCD.md) | Встановлення ArgoCD і налаштування Application |
+| [KUBERNETES.md](KUBERNETES.md) | Deployment, Service та Ingress |
+| [DOMAIN.md](DOMAIN.md) | Домен, DNS-записи та їх обслуговування |
+| [GITOPS-VERIFICATION.md](GITOPS-VERIFICATION.md) | Як перевірити оновлення застосунку |
+| [CHECKLIST.md](CHECKLIST.md) | Виконані пункти завдання |
 
-- Назва теки для здачі.
-- DNS-записи власного домену керуються через NIC.UA; Route53 для них не
-  використовується.
+## Параметри середовища
 
-Конкретні значення й команди відтворення наведено у тематичних документах
-`DOCKER.md`, `CI.md`, `EKS.md`, `ARGOCD.md`, `KUBERNETES.md` і `DOMAIN.md`.
-Секрети не входять до матеріалів здачі; для CI потрібні лише GitHub Secrets
-`DOCKERHUB_USERNAME` і `DOCKERHUB_TOKEN` без збереження їхніх значень у Git.
+| Параметр | Значення |
+| --- | --- |
+| Група | DevOps 13 |
+| AWS region | `eu-central-1` |
+| EKS cluster | `trezor` |
+| Kubernetes | `1.35` |
+| Node | `t3.small`, кількість — 1 |
+| ingress-nginx Helm chart | `4.15.1` |
+| ArgoCD Helm chart | `10.4.0` |
+| Основна гілка | `main` |
+| Docker image | `mikoladolia/dan-it-backend` |
+| DNS-провайдер | NIC.UA |
+| Terraform state | локальний; для S3 є `backend.tf.example` |
 
-## Особливості перенесення
+Для розгортання потрібні Terraform, AWS CLI, kubectl, доступ до AWS,
+наявна VPC та subnets у різних Availability Zones. Параметри задаються
+в локальному `terraform.tfvars` за прикладом `terraform.tfvars.example`.
+Для CI потрібні GitHub Secrets `DOCKERHUB_USERNAME` і `DOCKERHUB_TOKEN`.
 
-GitHub Actions запускає workflow з `.github/workflows/` у корені репозиторію.
-Якщо матеріали здаються вкладеною текою, workflow потрібно розмістити в кореневій `.github/workflows/` робочого репозиторію та налаштувати шляхи до коду.
-Шляхи ArgoCD до маніфестів також мають відповідати фактичному розташуванню матеріалів.
+## Перенесення в інший репозиторій
 
-## Докази виконання
+Workflow потрібно розмістити в `.github/workflows/` кореня репозиторію.
+Якщо тека проєкту зміниться, слід оновити шляхи збірки та маніфесту
+у workflow, а також `repoURL` і `path` у ArgoCD Application.
 
-Додавати лише фактичні результати запусків. Для скрінів зазначати, який пункт завдання вони підтверджують; приховувати секрети перед збереженням.
+## Результати перевірки
+
+У [evidence/](evidence/) зібрано скриншоти GitHub Actions, Docker Hub,
+AWS, ArgoCD і застосунку, а також результати команд перевірки.
+[Перевірка автоматичного оновлення](evidence/29-gitops-end-to-end.md)
+містить коміти, версію образу та стан pod до і після розгортання.

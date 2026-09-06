@@ -1,18 +1,18 @@
-# Перевірка виправлення автоматичної доставки
+# Перевірка автоматичного оновлення
 
-Статус 07.09.2026: workflow виправлено, опубліковано та перевірено в GitHub/EKS.
-Цей документ — сценарій повторення. Фактичні результати й скріни наведено у
+Нижче наведено порядок перевірки доставки нової версії backend у EKS.
+Результати запуску від 07.09.2026 наведено у
 [протоколі наскрізної доставки](evidence/29-gitops-end-to-end.md).
 
 ## Передумови
 
 Активні EKS `trezor` у `eu-central-1`, ArgoCD Application `dan-it-backend`,
 доступ kubectl до правильного контексту, чинні Docker Hub Secrets і дозвіл
-workflow на запис у `main`. Саме відкриття AWS Console не надає CLI-доступу.
+workflow на запис у `main`.
 
 ## Наскрізний сценарій
 
-1. Опублікувати виправлений workflow та дочекатися успішних `build` і `update-gitops`.
+1. Опублікувати workflow та дочекатися успішних `build` і `update-gitops`.
 2. Зафіксувати поточні pod UID, image та revision Application командами нижче.
 3. Окремим комітом змінити API у `backend/app.py` та видимий текст у `backend/static/`, не
    редагуючи `k8s/`. Записати повний SHA цього source-коміту.
@@ -35,18 +35,15 @@ kubectl rollout status deployment/dan-it-backend -n dan-it-backend --timeout=180
 Invoke-RestMethod http://app.mikoladolia.pp.ua/api/status
 ```
 
-## Докази, які потрібно зберегти
+## Результати перевірки
 
-У `evidence/` додати фактичний протокол із датою, посиланнями на source-коміт,
-CI run, GitOps-коміт, Docker digest та результати команд до/після.
-Якщо використовувався multi-platform image index, відрізняти його digest
-від digest платформи в pod imageID; перевірити зв'язок через registry manifest.
-
-Потрібні справжні скріншоти:
+У [звіті про оновлення](evidence/29-gitops-end-to-end.md) наведено коміт backend,
+запуск CI, коміт маніфесту, digest образу та стан pod до і після розгортання.
+До звіту додано скриншоти:
 
 - Application: `Synced / Healthy`, revision та дерево ресурсів.
 - Application details: repo, `main`, шлях, destination namespace та auto-sync policy.
-- Sync history: час і revision автоматичної операції після коміту бота.
+- Sync history: час і revision автоматичної операції після коміту pipeline.
 - Namespaces: `argocd`, `dan-it-backend`, `ingress-nginx`.
 - GitHub Actions: обидва успішні jobs, summary з тегом і GitOps-комітом.
 - Dashboard після оновлення з видимою зміною та DNS-адресою.

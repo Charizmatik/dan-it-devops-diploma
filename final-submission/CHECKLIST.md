@@ -1,8 +1,8 @@
 # Готовність матеріалів
 
-Позначка виконання означає наявність відповідного результату, а не лише плану.
+Стан проєкту на 07.09.2026. Посилання ведуть на результати перевірок і скриншоти.
 
-## Підпункти етапу 1
+## Етап 1
 
 - [x] Підготовлено Python backend: `GET /` повертає HTTP 200 та IP адресу.
 - [x] Локально перевірено HTTP 200 для `/` і HTTP 404 для невідомого шляху на Python 3.12.13. [Протокол](evidence/01-backend-local.md).
@@ -24,11 +24,11 @@
 
 - [x] Додано інструкції відтворення в окремому середовищі.
 - [x] Описано параметри та необхідні Secrets без їхніх значень.
-- [x] Доповнено докази фінальними скрінами Application, sync history і всіх namespace.
+- [x] Додано скриншоти Application, sync history і всіх namespace.
 - [x] Підготовлено інструкції видалення створених хмарних ресурсів.
 - [x] Перевірено склад теки для перенесення й відсутність секретів.
 
-## Підпункти етапу 2
+## Етап 2
 
 - [x] Підготовлено Terraform для EKS у наявній VPC.
 - [x] Одна managed node group має `min_size = desired_size = max_size = 1`.
@@ -43,7 +43,7 @@
 - [x] Збережено фактичні скріни AWS і kubectl для захисту.
 - [x] Збережено окремий скрін активних namespace, включно з `ingress-nginx`.
 
-## Підпункти етапу 3
+## Етап 3
 
 - [x] ArgoCD описано як Terraform `helm_release` з зафіксованою версією chart.
 - [x] Додано namespace `argocd` та Ingress через наявний ingress-nginx.
@@ -61,7 +61,7 @@
 - [x] Задокументовано реєстратора, реєстрову активацію PP.UA, NS, DNS-записи,
   строки дії та порядок відновлення у [DOMAIN.md](DOMAIN.md).
 
-## Підпункти етапу 4
+## Етап 4
 
 - [x] Підготовлено namespace, Deployment, Service, Ingress і Kustomization.
 - [x] Deployment використовує перевірений immutable SHA-тег образу з Docker Hub.
@@ -80,7 +80,7 @@
 - [x] Новий образ зібрано й опубліковано успішним GitHub Actions run.
 - [x] EKS Deployment оновлено на immutable dashboard-тег; rollout успішний.
 
-## Підпункти етапу 5
+## Етап 5
 
 - [x] Підготовлено декларативний ArgoCD Application у `argocd/application.yaml`.
 - [x] Source вказує на публічний GitHub-репозиторій, гілку `main` і шлях
@@ -99,7 +99,7 @@
 
 - [x] Підготовлено job запису нового SHA-тега та APP_VERSION у Git після публікації.
 - [x] Новий workflow опубліковано й успішно виконано у GitHub Actions.
-- [x] Зміна лише backend спричинила публікацію, коміт бота та rollout без ручної зміни маніфесту.
+- [x] Зміна лише backend спричинила публікацію, коміт pipeline та rollout без ручної зміни маніфесту.
 - [x] Збережено відповідність source SHA → image → GitOps SHA → ArgoCD revision → pod imageID.
 - [x] Збережено скрін Application `Synced / Healthy` із деревом ресурсів.
 - [x] Збережено скріни source/destination, automated/prune/selfHeal та історії sync.

@@ -362,7 +362,7 @@ Job `update-gitops` після публікації образу
 Окремий коміт лише backend
 [`4a9d766`](https://github.com/Charizmatik/dan-it-devops-diploma/commit/4a9d7664d5f4a94e027ad2165764e2ceb991389f)
 запустив [успішний CI](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590).
-Бот створив GitOps-коміт `0321103`; ArgoCD автоматично синхронізував його
+Pipeline оновив тег образу в Deployment і створив коміт `0321103`. ArgoCD синхронізував його
 07.09.2026 о 00:49:03 за Києвом. Новий pod отримав образ цього source-коміту,
 а публічний API повернув release `4a9d7664` та нове поле `delivery`.
 Ручні Sync, `kubectl set image` та restart для демонстрації не використовувалися.
