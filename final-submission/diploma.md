@@ -358,6 +358,13 @@ pod/dan-it-backend-68b56bdcbd-ktjmd   1/1   Running
 
 [Повний протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
 
+Цей дослід змінював annotation маніфесту, а не backend. Після зауважень
+07.09.2026 локально додано job `update-gitops`: після публікації образу він
+комітить новий SHA-тег і `APP_VERSION` у Deployment. Запуск цього виправлення
+в GitHub та наскрізний rollout поки не підтверджені. Також потрібно додати
+скріншоти Application, налаштувань, історії sync та актуальних namespace.
+[Порядок перевірки](GITOPS-VERIFICATION.md).
+
 ## 9. Підсумок
 
 - Python backend і Docker-образ підготовлено та перевірено.

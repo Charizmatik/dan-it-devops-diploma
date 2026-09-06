@@ -1,6 +1,8 @@
-# Only the server source is needed in the build context.
+# Include only the server and its dashboard assets in the build context.
 **
 !Dockerfile
 !.dockerignore
 !backend/
 !backend/app.py
+!backend/static/
+!backend/static/**

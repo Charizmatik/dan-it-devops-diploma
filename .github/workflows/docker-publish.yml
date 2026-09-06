@@ -134,3 +134,62 @@ jobs:
             echo "- Digest: ${IMAGE_DIGEST}"
             echo '- Checks passed: dashboard, health API, container IP, HTTP 404, UID 10001.'
           } >> "$GITHUB_STEP_SUMMARY"
+
+  update-gitops:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Commit published image to GitOps
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Never deploy a superseded build, including a rerun of an old workflow.
+          git merge-base --is-ancestor "$GITHUB_SHA" HEAD
+          if ! git diff --quiet "$GITHUB_SHA" HEAD -- \
+            final-submission/backend final-submission/Dockerfile \
+            final-submission/.dockerignore .github/workflows/docker-publish.yml; then
+            echo 'Skipped: main already contains newer build inputs.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          path = Path("final-submission/k8s/deployment.yaml")
+          text = path.read_text(encoding="utf-8")
+          tag = "sha-" + os.environ["GITHUB_SHA"]
+          image = os.environ["IMAGE_NAME"] + ":" + tag
+          text, images = re.subn(
+              r"(?m)^(\s*- name: backend\n\s*image: )\S+$",
+              lambda match: match[1] + image, text,
+          )
+          text, versions = re.subn(
+              r"(?m)^(\s*- name: APP_VERSION\n\s*value: )\S+$",
+              lambda match: match[1] + tag, text,
+          )
+          if images != 1 or versions != 1:
+              raise SystemExit("Expected exactly one backend image and APP_VERSION; no file written")
+          path.write_text(text, encoding="utf-8")
+          PY
+          git add -- final-submission/k8s/deployment.yaml
+          if git diff --cached --quiet; then
+            echo 'Deployment already references this image.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "deploy: backend sha-${GITHUB_SHA}"
+          # A concurrent push causes a visible failure; never force-push or rebase a stale image.
+          git push origin HEAD:main
+          echo "GitOps commit: $(git rev-parse HEAD); image: ${IMAGE_NAME}:sha-${GITHUB_SHA}. Await ArgoCD sync." >> "$GITHUB_STEP_SUMMARY"

@@ -41,13 +41,18 @@ Dashboard з live-даними зібрано в
 `sha-359aa5ae88ed778544c152b34f4a85a2827b1292`. Публічний API не розкриває
 назву pod, namespace, hostname node, повний SHA або точну patch-версію runtime.
 [Перевірка dashboard](evidence/13-dashboard-live.md).
-П'ятий етап виконано: [ArgoCD Application](argocd/application.yaml) стежить за
+Auto-sync маніфестів перевірено: [ArgoCD Application](argocd/application.yaml) стежить за
 гілкою `main` і шляхом `final-submission/k8s`, автоматично синхронізує зміни,
 видаляє вилучені з Git ресурси та виправляє drift. Фактичний коміт
 `c8e8e54fe796c43a573a8185707c71151eac2c32` автоматично спричинив новий
 rollout; Application повернувся до стану `Synced / Healthy`.
 [Протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
 Стан робіт і доказів: [CHECKLIST.md](CHECKLIST.md).
+
+Після перевірки 07.09.2026 локально додано автоматичний запис SHA-тега образу
+та `APP_VERSION` у Git після публікації. Наскрізний цикл оновлення backend
+ще потребує запуску в GitHub/EKS; попередній протокол підтверджує лише зміну
+маніфесту. [Механізм CI](CI.md) · [Сценарій перевірки та відсутні докази](GITOPS-VERIFICATION.md).
 
 ## Запланований склад
 

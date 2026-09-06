@@ -19,6 +19,11 @@
    правильна IP адреса, HTTP 404 на невідомому шляху та UID 10001.
 4. Після успішної перевірки виконується вхід у Docker Hub через GitHub Secrets.
 5. Образ публікується з тегами `latest` і `sha-<повний SHA коміту>`. Digest виводиться в підсумку запуску.
+6. Окремий job `update-gitops` після успішного build оновлює `image` та
+   `APP_VERSION` у `final-submission/k8s/deployment.yaml` і комітить у `main`
+   через `GITHUB_TOKEN` з job-level дозволом `contents: write`.
+7. ArgoCD виявляє коміт маніфесту та автоматично запускає rollout нового образу.
+   Успіх CI означає запис у Git; успіх доставки перевіряється окремо в ArgoCD/EKS.
 
 Pull request до `main` запускає збірку та перевірку без публікації й без доступу до Docker Hub Secrets.
 Workflow також можна запустити вручну через Actions → Build and publish backend → Run workflow для гілки `main`.
@@ -63,8 +68,30 @@ GitHub не запускає workflow із вкладеної теки авто�
 
 - Скопіюйте workflow в кореневу `.github/workflows/` робочого репозиторію.
 - Узгодьте `context`, `file` та фільтри `paths` із новим шляхом до коду.
+- Оновіть також шляхи у `update-gitops`: перевірку build inputs, Python-редактор і `git add`.
 - Якщо змінюється Docker Hub namespace або репозиторій образів, змініть `IMAGE_NAME` і налаштуйте Secrets відповідного акаунта.
 - Перевірте назву основної гілки у тригерах та умовах публікації.
 
-Після публікації dashboard Deployment вручну оновлено на immutable SHA-тег.
-Автоматичну синхронізацію маніфестів реалізує ArgoCD Application на етапі 5.
+## Автоматичне оновлення GitOps
+
+Виправлення від 07.09.2026 підготовлено локально; запуск нового workflow у
+GitHub і наскрізний rollout ще не підтверджені. Попередні публікації вимагали
+ручного оновлення Deployment.
+
+Для запису потрібна можливість push у `main` від `github-actions[bot]`.
+`contents: write` не обходить branch protection чи організаційні обмеження.
+Якщо правила вимагають PR, job завершиться помилкою; для такого репозиторію
+потрібно окремо узгодити доставку через PR та його злиття.
+
+Коміт бота змінює лише Deployment. Push через `GITHUB_TOKEN` не запускає
+повторний workflow; додатково `k8s/` не входить у фільтр збірки.
+ArgoCD сам читає Git і не потребує нового запуску Actions.
+[Документація GitHub](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow).
+
+Перед записом job перевіряє, що коміт збірки є предком поточного `main` і
+build inputs відтоді не змінилися. Застаріла збірка пропускається з поясненням
+у summary. Повторний запуск із тим самим тегом не створює зайвого коміту.
+Якщо `main` зміниться між checkout і push, звичайний push відхилиться:
+force-push не використовується. Повторно запустіть workflow на актуальному `main`.
+
+Сценарій перевірки й перелік відсутніх доказів: [GITOPS-VERIFICATION.md](GITOPS-VERIFICATION.md).

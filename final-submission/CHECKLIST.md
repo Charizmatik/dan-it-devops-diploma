@@ -19,11 +19,12 @@
 | 2. EKS, одна node group з одним node, nginx ingress | [x] | [x] | [x] |
 | 3. ArgoCD через Terraform і DNS | [x] | [x] | [x] |
 | 4. Deployment, Service, Ingress і DNS застосунку | [x] | [x] | [x] |
-| 5. ArgoCD Application та автоматичне оновлення | [x] | [x] | [x] |
+| 5. ArgoCD Application та auto-sync маніфестів | [x] | [x] | [x] текстовий протокол |
+| 5а. Backend → CI → SHA у Git → автоматичний rollout | [x] | [ ] | [ ] |
 
 - [x] Додано інструкції відтворення в окремому середовищі.
 - [x] Описано параметри та необхідні Secrets без їхніх значень.
-- [x] Зібрано скріни й текстові протоколи за пунктами завдання для захисту.
+- [ ] Доповнено докази фінальними скрінами Application, sync history і всіх namespace.
 - [x] Підготовлено інструкції видалення створених хмарних ресурсів.
 - [x] Перевірено склад теки для перенесення й відсутність секретів.
 
@@ -93,3 +94,17 @@
   повертає HTTP 200.
 - [x] Фактичний результат зафіксовано у
   [протоколі GitOps auto-sync](evidence/15-argocd-gitops-live.md).
+
+## Виправлення після перевірки 07.09.2026
+
+- [x] Підготовлено job запису нового SHA-тега та APP_VERSION у Git після публікації.
+- [ ] Новий workflow опубліковано й успішно виконано у GitHub Actions.
+- [ ] Зміна лише backend спричинила публікацію, коміт бота та rollout без ручної зміни маніфесту.
+- [ ] Збережено відповідність source SHA → image → GitOps SHA → ArgoCD revision → pod imageID.
+- [ ] Збережено скрін Application `Synced / Healthy` із деревом ресурсів.
+- [ ] Збережено скріни source/destination, automated/prune/selfHeal та історії sync.
+- [ ] Збережено актуальний скрін namespaces з `argocd`, `dan-it-backend`, `ingress-nginx`.
+- [ ] Додано окреме підтвердження дозволу куратора на власний домен.
+
+Попередній rollout через зміну annotation підтверджує auto-sync маніфестів,
+але не наскрізне оновлення backend. [Порядок перевірки](GITOPS-VERIFICATION.md).
