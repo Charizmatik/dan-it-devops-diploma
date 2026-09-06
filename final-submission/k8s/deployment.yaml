@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: backend
-          image: mikoladolia/dan-it-backend:sha-359aa5ae88ed778544c152b34f4a85a2827b1292
+          image: mikoladolia/dan-it-backend:sha-20daf2cf9fe45f593285c7c7a5060aa65b8880f4
           imagePullPolicy: IfNotPresent
           env:
             - name: POD_IP
@@ -32,7 +32,7 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP
             - name: APP_VERSION
-              value: sha-359aa5ae88ed778544c152b34f4a85a2827b1292
+              value: sha-20daf2cf9fe45f593285c7c7a5060aa65b8880f4
           ports:
             - name: http
               containerPort: 8000
