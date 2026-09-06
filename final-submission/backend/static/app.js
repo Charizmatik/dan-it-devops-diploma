@@ -1,4 +1,4 @@
-const fields = ["service", "environment", "runtime", "release"];
+const fields = ["service", "environment", "runtime", "release", "delivery"];
 document.getElementById("publicHostname").textContent = window.location.hostname || "app.mikoladolia.pp.ua";
 
 function formatUptime(totalSeconds) {

@@ -34,6 +34,7 @@ def status_payload():
         "service": "dan-it-backend",
         "ip": get_ip_address(),
         "environment": "AWS EKS" if os.environ.get("POD_IP") else "local",
+        "delivery": "GitHub Actions → Git → ArgoCD",
         "release": release,
         "uptime_seconds": round(time.monotonic() - STARTED_AT),
         "server_time": datetime.now(timezone.utc).isoformat(timespec="seconds"),
