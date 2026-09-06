@@ -1,0 +1,17 @@
+Captured UTC: 2026-09-06T21:47:43.8794387Z
+Cluster: trezor; AWS region: eu-central-1
+
+> kubectl get namespaces
+NAME              STATUS   AGE
+argocd            Active   2d2h
+dan-it-backend    Active   30h
+default           Active   3d2h
+ingress-nginx     Active   3d1h
+kube-node-lease   Active   3d2h
+kube-public       Active   3d2h
+kube-system       Active   3d2h
+
+> kubectl get nodes
+NAME                                           STATUS   ROLES    AGE    VERSION
+ip-172-31-0-47.eu-central-1.compute.internal   Ready    <none>   3d1h   v1.35.7-eks-cb19647
+

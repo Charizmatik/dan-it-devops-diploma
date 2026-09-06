@@ -14,7 +14,8 @@
 - Ingress через наявний ingress-nginx для host `app.mikoladolia.pp.ua`.
 
 Deployment використовує перевірений незмінний тег
-`sha-359aa5ae88ed778544c152b34f4a85a2827b1292`. IP pod береться з Kubernetes
+`sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f`. Нові теги та APP_VERSION
+записує CI після публікації, а ArgoCD доставляє коміт у кластер. IP pod береться з Kubernetes
 Downward API й відображається на dashboard через `GET /api/status`. Назва pod,
 namespace та hostname node навмисно не передаються у контейнер і не
 публікуються. Readiness і liveness probes звертаються до `/healthz` на порту

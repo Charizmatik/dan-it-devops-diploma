@@ -1,0 +1,213 @@
+{
+  "total_count": 2,
+  "jobs": [
+    {
+      "id": 101564240164,
+      "run_id": 34062070590,
+      "workflow_name": "Build and publish backend",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUMaigM8AAAAXpbNRJA",
+      "head_sha": "4a9d7664d5f4a94e027ad2165764e2ceb991389f",
+      "url": "https://api.github.com/repos/Charizmatik/dan-it-devops-diploma/actions/jobs/101564240164",
+      "html_url": "https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590/job/101564240164",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-06T21:46:31Z",
+      "started_at": "2026-09-06T21:46:34Z",
+      "completed_at": "2026-09-06T21:47:10Z",
+      "name": "build",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-09-06T21:46:35Z",
+          "completed_at": "2026-09-06T21:46:38Z"
+        },
+        {
+          "name": "Check out source",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-09-06T21:46:38Z",
+          "completed_at": "2026-09-06T21:46:40Z"
+        },
+        {
+          "name": "Set up Docker Buildx",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-09-06T21:46:40Z",
+          "completed_at": "2026-09-06T21:46:45Z"
+        },
+        {
+          "name": "Build image for testing",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-09-06T21:46:45Z",
+          "completed_at": "2026-09-06T21:46:54Z"
+        },
+        {
+          "name": "Verify HTTP response and container user",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-09-06T21:46:54Z",
+          "completed_at": "2026-09-06T21:46:57Z"
+        },
+        {
+          "name": "Log in to Docker Hub",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-09-06T21:46:57Z",
+          "completed_at": "2026-09-06T21:46:57Z"
+        },
+        {
+          "name": "Publish image",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-09-06T21:46:57Z",
+          "completed_at": "2026-09-06T21:47:04Z"
+        },
+        {
+          "name": "Write publication summary",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-09-06T21:47:04Z",
+          "completed_at": "2026-09-06T21:47:04Z"
+        },
+        {
+          "name": "Post Publish image",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-09-06T21:47:04Z",
+          "completed_at": "2026-09-06T21:47:06Z"
+        },
+        {
+          "name": "Post Log in to Docker Hub",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-09-06T21:47:06Z",
+          "completed_at": "2026-09-06T21:47:06Z"
+        },
+        {
+          "name": "Post Build image for testing",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-09-06T21:47:06Z",
+          "completed_at": "2026-09-06T21:47:08Z"
+        },
+        {
+          "name": "Post Set up Docker Buildx",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-09-06T21:47:08Z",
+          "completed_at": "2026-09-06T21:47:08Z"
+        },
+        {
+          "name": "Post Check out source",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-09-06T21:47:08Z",
+          "completed_at": "2026-09-06T21:47:09Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-09-06T21:47:09Z",
+          "completed_at": "2026-09-06T21:47:09Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Charizmatik/dan-it-devops-diploma/check-runs/101564240164",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000010,
+      "runner_name": "GitHub Actions 1000000010",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 101564319910,
+      "run_id": 34062070590,
+      "workflow_name": "Build and publish backend",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUMaigM8AAAAXpbSIpg",
+      "head_sha": "4a9d7664d5f4a94e027ad2165764e2ceb991389f",
+      "url": "https://api.github.com/repos/Charizmatik/dan-it-devops-diploma/actions/jobs/101564319910",
+      "html_url": "https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590/job/101564319910",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-06T21:47:10Z",
+      "started_at": "2026-09-06T21:47:13Z",
+      "completed_at": "2026-09-06T21:47:20Z",
+      "name": "update-gitops",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-09-06T21:47:14Z",
+          "completed_at": "2026-09-06T21:47:15Z"
+        },
+        {
+          "name": "Check out current main",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-09-06T21:47:15Z",
+          "completed_at": "2026-09-06T21:47:16Z"
+        },
+        {
+          "name": "Commit published image to GitOps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-09-06T21:47:16Z",
+          "completed_at": "2026-09-06T21:47:18Z"
+        },
+        {
+          "name": "Post Check out current main",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-09-06T21:47:18Z",
+          "completed_at": "2026-09-06T21:47:18Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-09-06T21:47:18Z",
+          "completed_at": "2026-09-06T21:47:18Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Charizmatik/dan-it-devops-diploma/check-runs/101564319910",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000011,
+      "runner_name": "GitHub Actions 1000000011",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

@@ -5,6 +5,14 @@
 
 ## Підтверджений результат
 
+07.09.2026 повний цикл перевірено на зміні лише backend:
+[CI run 34062070590](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590)
+успішно виконав `build` і `update-gitops`; бот створив коміт `0321103`,
+ArgoCD автоматично розгорнув образ `sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f`.
+[Наскрізний протокол і скріни](evidence/29-gitops-end-to-end.md).
+
+Попередній результат від 05.09.2026:
+
 [Запуск dashboard](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/33973964536)
 від 05.09.2026 завершився успішно. Опубліковано `latest` і
 `sha-37bae4d0ff8a1f9c0fbab11ecb5f481eb8e3626e`; цей immutable тег розгорнуто
@@ -74,9 +82,10 @@ GitHub не запускає workflow із вкладеної теки авто�
 
 ## Автоматичне оновлення GitOps
 
-Виправлення від 07.09.2026 підготовлено локально; запуск нового workflow у
-GitHub і наскрізний rollout ще не підтверджені. Попередні публікації вимагали
-ручного оновлення Deployment.
+Виправлення від 07.09.2026 опубліковано та перевірено у GitHub і EKS.
+Попередні публікації вимагали ручного оновлення Deployment; тепер це робить
+job `update-gitops`. Додатково виправлено `.dockerignore`, щоб Docker build
+отримував статичні файли dashboard, які копіює Dockerfile.
 
 Для запису потрібна можливість push у `main` від `github-actions[bot]`.
 `contents: write` не обходить branch protection чи організаційні обмеження.

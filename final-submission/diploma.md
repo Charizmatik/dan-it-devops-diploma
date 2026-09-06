@@ -248,7 +248,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: backend
-          image: mikoladolia/dan-it-backend:sha-359aa5ae88ed778544c152b34f4a85a2827b1292
+          image: mikoladolia/dan-it-backend:sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f
           ports:
             - name: http
               containerPort: 8000
@@ -358,12 +358,26 @@ pod/dan-it-backend-68b56bdcbd-ktjmd   1/1   Running
 
 [Повний протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
 
-Цей дослід змінював annotation маніфесту, а не backend. Після зауважень
-07.09.2026 локально додано job `update-gitops`: після публікації образу він
-комітить новий SHA-тег і `APP_VERSION` у Deployment. Запуск цього виправлення
-в GitHub та наскрізний rollout поки не підтверджені. Також потрібно додати
-скріншоти Application, налаштувань, історії sync та актуальних namespace.
-[Порядок перевірки](GITOPS-VERIFICATION.md).
+Перший дослід змінював annotation маніфесту. Після зауважень 07.09.2026
+додано й реально перевірено job `update-gitops`: після публікації образу він
+комітить новий SHA-тег і `APP_VERSION` у Deployment.
+
+Окремий коміт лише backend
+[`4a9d766`](https://github.com/Charizmatik/dan-it-devops-diploma/commit/4a9d7664d5f4a94e027ad2165764e2ceb991389f)
+запустив [успішний CI](https://github.com/Charizmatik/dan-it-devops-diploma/actions/runs/34062070590).
+Бот створив GitOps-коміт `0321103`; ArgoCD автоматично синхронізував його
+07.09.2026 о 00:49:03 за Києвом. Новий pod отримав образ цього source-коміту,
+а публічний API повернув release `4a9d7664` та нове поле `delivery`.
+Ручні Sync, `kubectl set image` та restart для демонстрації не використовувалися.
+
+![Application Synced / Healthy після автоматичної доставки](evidence/25-argocd-final-synced-healthy-tree.png)
+![Налаштування source та auto-sync](evidence/21-argocd-source-autosync-policy.png)
+![Історія автоматичних синхронізацій](evidence/26-argocd-automated-sync-history.png)
+![Знімок збереженого фактичного виводу kubectl](evidence/22-namespaces-and-node-live.png)
+
+[Наскрізний протокол, SHA, digest та решта доказів](evidence/29-gitops-end-to-end.md).
+Використання власного домену відповідає наданому роз’ясненню куратора для
+студентів із власним AWS-акаунтом. Скрин листування не додається за рішенням користувача.
 
 ## 9. Підсумок
 

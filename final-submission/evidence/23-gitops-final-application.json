@@ -1,0 +1,250 @@
+{
+    "apiVersion": "argoproj.io/v1alpha1",
+    "kind": "Application",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"argoproj.io/v1alpha1\",\"kind\":\"Application\",\"metadata\":{\"annotations\":{},\"finalizers\":[\"resources-finalizer.argocd.argoproj.io\"],\"name\":\"dan-it-backend\",\"namespace\":\"argocd\"},\"spec\":{\"destination\":{\"namespace\":\"dan-it-backend\",\"server\":\"https://kubernetes.default.svc\"},\"project\":\"default\",\"source\":{\"path\":\"final-submission/k8s\",\"repoURL\":\"https://github.com/Charizmatik/dan-it-devops-diploma.git\",\"targetRevision\":\"main\"},\"syncPolicy\":{\"automated\":{\"enabled\":true,\"prune\":true,\"selfHeal\":true},\"syncOptions\":[\"CreateNamespace=true\",\"PrunePropagationPolicy=foreground\",\"PruneLast=true\"]}}}\n"
+        },
+        "creationTimestamp": "2026-09-05T16:31:52Z",
+        "finalizers": [
+            "resources-finalizer.argocd.argoproj.io"
+        ],
+        "generation": 589,
+        "name": "dan-it-backend",
+        "namespace": "argocd",
+        "resourceVersion": "743344",
+        "uid": "56dd4ff5-f159-467c-9649-3c97bd90f253"
+    },
+    "spec": {
+        "destination": {
+            "namespace": "dan-it-backend",
+            "server": "https://kubernetes.default.svc"
+        },
+        "project": "default",
+        "source": {
+            "path": "final-submission/k8s",
+            "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+            "targetRevision": "main"
+        },
+        "syncPolicy": {
+            "automated": {
+                "enabled": true,
+                "prune": true,
+                "selfHeal": true
+            },
+            "syncOptions": [
+                "CreateNamespace=true",
+                "PrunePropagationPolicy=foreground",
+                "PruneLast=true"
+            ]
+        }
+    },
+    "status": {
+        "controllerNamespace": "argocd",
+        "health": {
+            "lastTransitionTime": "2026-09-06T21:49:13Z",
+            "status": "Healthy"
+        },
+        "history": [
+            {
+                "deployStartedAt": "2026-09-05T16:31:56Z",
+                "deployedAt": "2026-09-05T16:31:58Z",
+                "id": 0,
+                "initiatedBy": {
+                    "automated": true
+                },
+                "revision": "05e2a938e76bbc8ee511ce34a8d0eea28bf1d3fb",
+                "source": {
+                    "path": "final-submission/k8s",
+                    "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                    "targetRevision": "main"
+                }
+            },
+            {
+                "deployStartedAt": "2026-09-05T16:35:22Z",
+                "deployedAt": "2026-09-05T16:35:25Z",
+                "id": 1,
+                "initiatedBy": {
+                    "automated": true
+                },
+                "revision": "c8e8e54fe796c43a573a8185707c71151eac2c32",
+                "source": {
+                    "path": "final-submission/k8s",
+                    "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                    "targetRevision": "main"
+                }
+            },
+            {
+                "deployStartedAt": "2026-09-06T21:44:49Z",
+                "deployedAt": "2026-09-06T21:44:50Z",
+                "id": 2,
+                "initiatedBy": {
+                    "automated": true
+                },
+                "revision": "b3f932424ab284b98c3e40188c13da43eca133b7",
+                "source": {
+                    "path": "final-submission/k8s",
+                    "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                    "targetRevision": "main"
+                }
+            },
+            {
+                "deployStartedAt": "2026-09-06T21:49:01Z",
+                "deployedAt": "2026-09-06T21:49:03Z",
+                "id": 3,
+                "initiatedBy": {
+                    "automated": true
+                },
+                "revision": "032110361c104a3c4391c87c2c3c2690d78e0fac",
+                "source": {
+                    "path": "final-submission/k8s",
+                    "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                    "targetRevision": "main"
+                }
+            }
+        ],
+        "operationState": {
+            "finishedAt": "2026-09-06T21:49:03Z",
+            "message": "successfully synced (all tasks run)",
+            "operation": {
+                "initiatedBy": {
+                    "automated": true
+                },
+                "retry": {
+                    "limit": 5
+                },
+                "sync": {
+                    "prune": true,
+                    "revision": "032110361c104a3c4391c87c2c3c2690d78e0fac",
+                    "source": {
+                        "path": "final-submission/k8s",
+                        "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                        "targetRevision": "main"
+                    },
+                    "syncOptions": [
+                        "CreateNamespace=true",
+                        "PrunePropagationPolicy=foreground",
+                        "PruneLast=true"
+                    ]
+                }
+            },
+            "phase": "Succeeded",
+            "startedAt": "2026-09-06T21:49:01Z",
+            "syncResult": {
+                "resources": [
+                    {
+                        "group": "",
+                        "hookPhase": "Running",
+                        "kind": "Namespace",
+                        "message": "namespace/dan-it-backend unchanged",
+                        "name": "dan-it-backend",
+                        "namespace": "dan-it-backend",
+                        "status": "Synced",
+                        "syncPhase": "Sync",
+                        "version": "v1"
+                    },
+                    {
+                        "group": "",
+                        "hookPhase": "Running",
+                        "kind": "Service",
+                        "message": "service/dan-it-backend unchanged",
+                        "name": "dan-it-backend",
+                        "namespace": "dan-it-backend",
+                        "status": "Synced",
+                        "syncPhase": "Sync",
+                        "version": "v1"
+                    },
+                    {
+                        "group": "apps",
+                        "hookPhase": "Running",
+                        "images": [
+                            "mikoladolia/dan-it-backend:sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f"
+                        ],
+                        "kind": "Deployment",
+                        "message": "deployment.apps/dan-it-backend configured",
+                        "name": "dan-it-backend",
+                        "namespace": "dan-it-backend",
+                        "status": "Synced",
+                        "syncPhase": "Sync",
+                        "version": "v1"
+                    },
+                    {
+                        "group": "networking.k8s.io",
+                        "hookPhase": "Running",
+                        "kind": "Ingress",
+                        "message": "ingress.networking.k8s.io/dan-it-backend unchanged",
+                        "name": "dan-it-backend",
+                        "namespace": "dan-it-backend",
+                        "status": "Synced",
+                        "syncPhase": "Sync",
+                        "version": "v1"
+                    }
+                ],
+                "revision": "032110361c104a3c4391c87c2c3c2690d78e0fac",
+                "source": {
+                    "path": "final-submission/k8s",
+                    "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                    "targetRevision": "main"
+                }
+            }
+        },
+        "reconciledAt": "2026-09-06T21:49:03Z",
+        "resourceHealthSource": "appTree",
+        "resources": [
+            {
+                "kind": "Namespace",
+                "name": "dan-it-backend",
+                "status": "Synced",
+                "version": "v1"
+            },
+            {
+                "kind": "Service",
+                "name": "dan-it-backend",
+                "namespace": "dan-it-backend",
+                "status": "Synced",
+                "version": "v1"
+            },
+            {
+                "group": "apps",
+                "kind": "Deployment",
+                "name": "dan-it-backend",
+                "namespace": "dan-it-backend",
+                "status": "Synced",
+                "version": "v1"
+            },
+            {
+                "group": "networking.k8s.io",
+                "kind": "Ingress",
+                "name": "dan-it-backend",
+                "namespace": "dan-it-backend",
+                "status": "Synced",
+                "version": "v1"
+            }
+        ],
+        "sourceHydrator": {},
+        "sourceType": "Kustomize",
+        "summary": {
+            "externalURLs": [
+                "http://app.mikoladolia.pp.ua/"
+            ],
+            "images": [
+                "mikoladolia/dan-it-backend:sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f"
+            ]
+        },
+        "sync": {
+            "comparedTo": {
+                "destination": {
+                    "namespace": "dan-it-backend",
+                    "server": "https://kubernetes.default.svc"
+                },
+                "source": {
+                    "path": "final-submission/k8s",
+                    "repoURL": "https://github.com/Charizmatik/dan-it-devops-diploma.git",
+                    "targetRevision": "main"
+                }
+            },
+            "revision": "032110361c104a3c4391c87c2c3c2690d78e0fac",
+            "status": "Synced"
+        }
+    }
+}

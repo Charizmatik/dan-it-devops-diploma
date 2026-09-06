@@ -1,0 +1,32 @@
+{
+  "creator": 33381586,
+  "id": 1297674757,
+  "images": [
+    {
+      "architecture": "amd64",
+      "features": "",
+      "variant": null,
+      "digest": "sha256:2b203a7e7ebbb995e167178646421d115e4643f7ce8bcb6555c2101793400e66",
+      "os": "linux",
+      "os_features": "",
+      "os_version": null,
+      "size": 45445332,
+      "status": "active",
+      "last_pulled": "2026-09-06T21:47:01.845303687Z",
+      "last_pushed": "2026-09-06T21:47:00.584616296Z"
+    }
+  ],
+  "last_updated": "2026-09-06T21:47:03.469542Z",
+  "last_updater": 33381586,
+  "last_updater_username": "mikoladolia",
+  "name": "sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f",
+  "repository": 32348694,
+  "full_size": 45445332,
+  "v2": true,
+  "tag_status": "active",
+  "tag_last_pulled": "2026-09-06T21:47:01.845303687Z",
+  "tag_last_pushed": "2026-09-06T21:47:03.469542Z",
+  "media_type": "application/vnd.oci.image.index.v1+json",
+  "content_type": "image",
+  "digest": "sha256:3bf49024948c03bb01f3d882f74fce1b6eea7d36fb23c59fda42e3a9ee9968df"
+}

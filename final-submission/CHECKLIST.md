@@ -20,11 +20,11 @@
 | 3. ArgoCD через Terraform і DNS | [x] | [x] | [x] |
 | 4. Deployment, Service, Ingress і DNS застосунку | [x] | [x] | [x] |
 | 5. ArgoCD Application та auto-sync маніфестів | [x] | [x] | [x] текстовий протокол |
-| 5а. Backend → CI → SHA у Git → автоматичний rollout | [x] | [ ] | [ ] |
+| 5а. Backend → CI → SHA у Git → автоматичний rollout | [x] | [x] | [x] |
 
 - [x] Додано інструкції відтворення в окремому середовищі.
 - [x] Описано параметри та необхідні Secrets без їхніх значень.
-- [ ] Доповнено докази фінальними скрінами Application, sync history і всіх namespace.
+- [x] Доповнено докази фінальними скрінами Application, sync history і всіх namespace.
 - [x] Підготовлено інструкції видалення створених хмарних ресурсів.
 - [x] Перевірено склад теки для перенесення й відсутність секретів.
 
@@ -98,13 +98,17 @@
 ## Виправлення після перевірки 07.09.2026
 
 - [x] Підготовлено job запису нового SHA-тега та APP_VERSION у Git після публікації.
-- [ ] Новий workflow опубліковано й успішно виконано у GitHub Actions.
-- [ ] Зміна лише backend спричинила публікацію, коміт бота та rollout без ручної зміни маніфесту.
-- [ ] Збережено відповідність source SHA → image → GitOps SHA → ArgoCD revision → pod imageID.
-- [ ] Збережено скрін Application `Synced / Healthy` із деревом ресурсів.
-- [ ] Збережено скріни source/destination, automated/prune/selfHeal та історії sync.
-- [ ] Збережено актуальний скрін namespaces з `argocd`, `dan-it-backend`, `ingress-nginx`.
-- [ ] Додано окреме підтвердження дозволу куратора на власний домен.
+- [x] Новий workflow опубліковано й успішно виконано у GitHub Actions.
+- [x] Зміна лише backend спричинила публікацію, коміт бота та rollout без ручної зміни маніфесту.
+- [x] Збережено відповідність source SHA → image → GitOps SHA → ArgoCD revision → pod imageID.
+- [x] Збережено скрін Application `Synced / Healthy` із деревом ресурсів.
+- [x] Збережено скріни source/destination, automated/prune/selfHeal та історії sync.
+- [x] Збережено актуальний скрін namespaces з `argocd`, `dan-it-backend`, `ingress-nginx`.
+- [x] Дозвіл на власний домен звірено з наданим повідомленням куратора; скрин не додається за рішенням користувача.
 
 Попередній rollout через зміну annotation підтверджує auto-sync маніфестів,
 але не наскрізне оновлення backend. [Порядок перевірки](GITOPS-VERIFICATION.md).
+
+Наскрізний цикл підтверджено 07.09.2026: [протокол і докази](evidence/29-gitops-end-to-end.md).
+Скрин namespaces відображає збережений фактичний вивід kubectl у браузері.
+Питання домену закрито за наданим роз’ясненням куратора.

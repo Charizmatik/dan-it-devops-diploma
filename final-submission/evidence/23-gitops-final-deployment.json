@@ -1,0 +1,162 @@
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "annotations": {
+            "argocd.argoproj.io/tracking-id": "dan-it-backend:apps/Deployment:dan-it-backend/dan-it-backend",
+            "deployment.kubernetes.io/revision": "8",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{\"argocd.argoproj.io/tracking-id\":\"dan-it-backend:apps/Deployment:dan-it-backend/dan-it-backend\"},\"labels\":{\"app.kubernetes.io/name\":\"dan-it-backend\",\"app.kubernetes.io/part-of\":\"dan-it-diploma\"},\"name\":\"dan-it-backend\",\"namespace\":\"dan-it-backend\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app.kubernetes.io/name\":\"dan-it-backend\"}},\"template\":{\"metadata\":{\"annotations\":{\"gitops.dan-it.dev/deployed-by\":\"argocd\"},\"labels\":{\"app.kubernetes.io/name\":\"dan-it-backend\",\"app.kubernetes.io/part-of\":\"dan-it-diploma\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"POD_IP\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"status.podIP\"}}},{\"name\":\"APP_VERSION\",\"value\":\"sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f\"}],\"image\":\"mikoladolia/dan-it-backend:sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f\",\"imagePullPolicy\":\"IfNotPresent\",\"livenessProbe\":{\"httpGet\":{\"path\":\"/healthz\",\"port\":\"http\"},\"initialDelaySeconds\":10,\"periodSeconds\":10},\"name\":\"backend\",\"ports\":[{\"containerPort\":8000,\"name\":\"http\",\"protocol\":\"TCP\"}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/healthz\",\"port\":\"http\"},\"initialDelaySeconds\":2,\"periodSeconds\":5},\"resources\":{\"limits\":{\"cpu\":\"200m\",\"memory\":\"128Mi\"},\"requests\":{\"cpu\":\"25m\",\"memory\":\"32Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001}}],\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}}}}\n"
+        },
+        "creationTimestamp": "2026-09-05T14:55:09Z",
+        "generation": 9,
+        "labels": {
+            "app.kubernetes.io/name": "dan-it-backend",
+            "app.kubernetes.io/part-of": "dan-it-diploma"
+        },
+        "name": "dan-it-backend",
+        "namespace": "dan-it-backend",
+        "resourceVersion": "743339",
+        "uid": "62c7ed68-9865-4b59-b214-c64253e1e7b3"
+    },
+    "spec": {
+        "progressDeadlineSeconds": 600,
+        "replicas": 1,
+        "revisionHistoryLimit": 10,
+        "selector": {
+            "matchLabels": {
+                "app.kubernetes.io/name": "dan-it-backend"
+            }
+        },
+        "strategy": {
+            "rollingUpdate": {
+                "maxSurge": "25%",
+                "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+        },
+        "template": {
+            "metadata": {
+                "annotations": {
+                    "gitops.dan-it.dev/deployed-by": "argocd"
+                },
+                "labels": {
+                    "app.kubernetes.io/name": "dan-it-backend",
+                    "app.kubernetes.io/part-of": "dan-it-diploma"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "POD_IP",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "status.podIP"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "APP_VERSION",
+                                "value": "sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f"
+                            }
+                        ],
+                        "image": "mikoladolia/dan-it-backend:sha-4a9d7664d5f4a94e027ad2165764e2ceb991389f",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/healthz",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "backend",
+                        "ports": [
+                            {
+                                "containerPort": 8000,
+                                "name": "http",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/healthz",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 2,
+                            "periodSeconds": 5,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "128Mi"
+                            },
+                            "requests": {
+                                "cpu": "25m",
+                                "memory": "32Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true,
+                            "runAsNonRoot": true,
+                            "runAsUser": 10001
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationGracePeriodSeconds": 30
+            }
+        }
+    },
+    "status": {
+        "availableReplicas": 1,
+        "conditions": [
+            {
+                "lastTransitionTime": "2026-09-05T14:55:18Z",
+                "lastUpdateTime": "2026-09-05T14:55:18Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+            },
+            {
+                "lastTransitionTime": "2026-09-05T14:55:09Z",
+                "lastUpdateTime": "2026-09-06T21:49:13Z",
+                "message": "ReplicaSet \"dan-it-backend-86d74f84fb\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+            }
+        ],
+        "observedGeneration": 9,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "terminatingReplicas": 0,
+        "updatedReplicas": 1
+    }
+}

@@ -93,6 +93,10 @@ kubectl wait --for=jsonpath='{.status.health.status}'=Healthy `
 Git, а не застосовувати вручну. Фактичну автоматичну доставку окремого коміту
 перевірено в EKS: [протокол GitOps auto-sync](evidence/15-argocd-gitops-live.md).
 
+07.09.2026 додатково перевірено повний цикл зміни backend: CI публікує образ,
+комітить SHA-тег, ArgoCD автоматично виконує rollout.
+[Новий протокол зі скрінами Application, policy та sync history](evidence/29-gitops-end-to-end.md).
+
 Початковий пароль адміністратора отримати локально, не додавати до Git і не
 залишати на скрінах:
 
